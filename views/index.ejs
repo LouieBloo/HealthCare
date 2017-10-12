@@ -1,19 +1,20 @@
 
 <%
 
-var pagecss = ['/stylesheets/index.css'];
+//var pagecss = ['/stylesheets/index.css'];
 var pagejs = ['/javascripts/index.js'];
 
 	
 %>
 
 
-<%- include('./header',{extraCSS:pagecss,extraJS:pagejs}); %>
+<%- include('./header',{extraCSS:[],extraJS:pagejs}); %>
 
 
 <body>
 
 	<%- include('./navbar',{page:'Home'}); %>
+
 
     <!-- Header with Background Image -->
     <header class="business-header">

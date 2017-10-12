@@ -5,13 +5,18 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var session = require('express-session');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
+var login = require('./routes/login');
 
 var config = require('./config');
 var database = require('./database');
 
 var app = express();
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,13 +30,26 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//session
+app.use(session({
+	secret: 'popsicle',
+	saveUninitialized:false,
+	resave:false
+}));
+
+//passport
+var passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 app.locals.configFile = config;
 
+
 app.use('/', index);
 app.use('/users', users);
 
+app.use('/login', login);	
 
 
 
