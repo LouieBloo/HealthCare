@@ -8,8 +8,9 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var users = require('./routes/user');
 var login = require('./routes/login');
+
 
 var config = require('./config');
 var database = require('./database');
@@ -47,7 +48,7 @@ app.locals.configFile = config;
 
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/user', users);
 
 app.use('/login', login);	
 

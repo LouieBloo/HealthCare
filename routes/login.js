@@ -5,14 +5,15 @@ var database = require('../database');
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
+var bcrypt = require('bcrypt');
+
+
 passport.use(new LocalStrategy(
 
 	function(username, password, done) {
 
-		console.log("Passport check: " + username + " Password: " + password);
 
-
-		database.db.query('SELECT UserID,Password FROM Users WHERE Email=?',[username],function(error,results,fields){
+		database.db.query('SELECT UserID,Password,Permission,Salt FROM Users WHERE Email=?',[username],function(error,results,fields){
 			
 			console.log(results);
 
@@ -20,40 +21,41 @@ passport.use(new LocalStrategy(
 			{
 				return done("Unknown Error Occured");
 			}
-			else if(results == null || results.length < 1)
+			else if(results == null || results.length != 1)
 			{
 				return done(null,false);
 			}
 			else
 			{
-				if(results[0].Password == password)
-				{
-					var user = {id:results[0].UserID};
-					return done(null,user);
-				}
-				else{
-					return done(null,false);
-				}
+				bcrypt.hash(password,results[0].Salt,function(err,hash){
+					if(err)
+					{
+						console.log("Error hashing login password!");
+						return done(null,false);
+					}
+					else
+					{
+						if(results[0].Password == hash)
+						{
+							var user = {
+								id:results[0].UserID,
+								permission:results[0].Permission
+							};
+							return done(null,user);
+						}
+						else{
+							return done(null,false);
+						}
+					}
+				});
 			}
 		});
-
-
-    // User.findOne({ username: username }, function(err, user) {
-    //   if (err) { return done(err); }
-    //   if (!user) {
-    //     return done(null, false, { message: 'Incorrect username.' });
-    //   }
-    //   if (!user.validPassword(password)) {
-    //     return done(null, false, { message: 'Incorrect password.' });
-    //   }
-    //   return done(null, user);
-    // });
  	}
 ));
 
 passport.serializeUser(function(user, done) {
 	console.log("serializing: " + user.id);
-  done(null, user.id);
+ 	done(null, user);
 });
 
 passport.deserializeUser(function(id, done) {
@@ -63,8 +65,6 @@ passport.deserializeUser(function(id, done) {
 
 
 router.get('/', function(req, res, next) {
-
-	console.log("user: " + req.user);
 
 	var err = req.query.error;
 	if(err == '1')
@@ -80,6 +80,10 @@ router.get('/', function(req, res, next) {
 router.post('/',
 	passport.authenticate('local', { successRedirect: '/',failureRedirect: '/login?error=1'})
 );
+
+router.post('/create',function(req,res,next){
+
+});
 
 
 module.exports = router;

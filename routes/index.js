@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	console.log("user: " + req.user);
+	console.log("user: " + req.user.id + " " + req.user.permission);
 	res.render('index', { title: 'Dirt Services' });
   //res.render('index', { title: 'Express' });
 
