@@ -12,11 +12,8 @@ passport.use(new LocalStrategy(
 
 	function(username, password, done) {
 
-
 		database.db.query('SELECT UserID,Password,Permission,Salt FROM Users WHERE Email=?',[username],function(error,results,fields){
 			
-			console.log(results);
-
 			if(error)
 			{
 				return done("Unknown Error Occured");
@@ -54,7 +51,6 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function(user, done) {
-	console.log("serializing: " + user.id);
  	done(null, user);
 });
 
@@ -78,7 +74,7 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/',
-	passport.authenticate('local', { successRedirect: '/',failureRedirect: '/login?error=1'})
+	passport.authenticate('local', { successRedirect: '/',failureRedirect: '/login/?error=1'})
 );
 
 router.post('/create',function(req,res,next){

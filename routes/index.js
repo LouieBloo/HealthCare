@@ -1,19 +1,24 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-	console.log("user: " + req.user.id + " " + req.user.permission);
+
+var authentication = require('../lib/authentication');
+
+
+
+var renderHomePage = function(req,res,next){
 	res.render('index', { title: 'Dirt Services' });
-  //res.render('index', { title: 'Express' });
+}
 
-});
+// router.get('/', function(req, res, next) {
+// 	//console.log("user: " + req.user.id + " " + req.user.permission);
 
-/* GET home page. */
-router.post('/', function(req, res, next) {
+// 	console.log('within get!');
+// 	res.render('index', { title: 'Dirt Services' });
+//   //res.render('index', { title: 'Express' });
 
-  res.render('index', { title: 'Post express' });
-  
-});
+// }]);
+
+router.get('/',renderHomePage);
 
 module.exports = router;

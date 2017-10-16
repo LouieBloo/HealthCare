@@ -4,26 +4,32 @@ var validator = require('validator');
 var database = require('../database');
 var bcrypt = require('bcrypt');
 
-router.get('/create',function(req,res,next){
+var authentication = require('../lib/authentication');
 
-	renderPage(res,'New User');
+
+
+
+
+router.get('/create',authentication.hasPermission(10),function(req,res,next){
+
+	renderCreateUserPage(res,'New User');
 
 });
 
-router.post('/create',function(req,res,next){
+router.post('/create',authentication.hasPermission(10),function(req,res,next){
 
 	isValidParameters(req,function(error){
 
 		if(error.length > 0)//user entered in invalid stuff, rerender page with the error and there original entries
 		{
-			renderPage(res,'New User',error,req.body);
+			renderCreateUserPage(res,'New User',error,req.body);
 		}
 		else//parameter check ok, check if email is already taken
 		{
 			isEmailInUse(req.body.email,function(error){
 				if(error.length > 0)
 				{
-					renderPage(res,'New User',error,req.body);
+					renderCreateUserPage(res,'New User',error,req.body);
 				}
 				else
 				{
@@ -31,7 +37,7 @@ router.post('/create',function(req,res,next){
 					createNewUser(req,function(error){
 						if(error.length > 0)
 						{
-							renderPage(res,'New User',error,req.body);			
+							renderCreateUserPage(res,'New User',error,req.body);			
 						}
 						else
 						{
@@ -45,9 +51,9 @@ router.post('/create',function(req,res,next){
 
 });
 
-var renderPage = function(res,title,error,prefill)
+var renderCreateUserPage = function(res,title,error,prefill)
 {
-	res.render('./user/user', { title: title,error:error,prefill:prefill});
+	res.render('./user/createUser', { title: title,error:error,prefill:prefill});
 }
 
 //check account parameter validity

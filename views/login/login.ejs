@@ -12,35 +12,53 @@
 
 <body>
 
-	<%- include('../navbar',{page:'Login'}); %>
 
+	<div class="container py-5">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <h2 class="text-center text-black mb-4"><%=configFile.companyName%> </h2>
+	            <div class="row">
+	                <div class="col-md-6 mx-auto">
+	                    <span class="anchor" id="formLogin"></span>
 
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-4">
-				<form action="/login" method="post">
-				    <div>
-				        <label>Email:</label>
-				        <input type="text" name="username"/>
-				    </div>
-				    <div>
-				        <label>Password:</label>
-				        <input type="password" name="password"/>
-				    </div>
-
-				    <% if(locals.error){%>
-					    <div>
-					    	<p class='text-danger'><strong><%= error%></strong></p>
-					    </div>
-					<%}%>
-				    <div>
-				        <input type="submit" value="Log In"/>
-				    </div>
-				</form>
-			</div>
-		</div>
+	                    <!-- form card login -->
+	                    <div class="card rounded-0">
+	                        <div class="card-header">
+	                            <h3 class="mb-0">Login</h3>
+	                        </div>
+	                        <div class="card-body">
+	                            <form action="/login" method="post" class="form" role="form" id="formLogin">
+	                                <div class="form-group">
+	                                    <label for="username">Email</label>
+	                                    <input type="text" class="form-control form-control-lg rounded-0" name="username" id="username" required="">
+	                                </div>
+	                                <div class="form-group">
+	                                    <label>Password</label>
+	                                    <input type="password" class="form-control form-control-lg rounded-0" id="password" name="password" required="" autocomplete="new-password">
+	                                </div>
+	                                <% if(locals.error){%>
+									    <div>
+									    	<p class='text-danger'><strong><%= error%></strong></p>
+									    </div>
+									<%}%>
+	                                <button type="submit" class="btn btn-success btn-lg float-right">Login</button>
+	                            </form>
+	                        </div>
+	                        <!--/card-block-->
+	                    </div>
+	                    <!-- /form card login -->
+	                </div>
+	            </div>
+	            <!--/row-->
+	        </div>
+	        <!--/col-->
+	    </div>
+	    <!--/row-->
 	</div>
-    
+	<!--/container-->
 
+
+
+	
 
 <%- include('../footer'); %>

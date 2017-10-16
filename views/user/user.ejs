@@ -1,15 +1,6 @@
 
 <%
-	var prefillFName ='';
-	var prefillLName ='';
-	var prefillEmail ='';
-
-	if(locals.prefill)
-	{
-		prefillFName = locals.prefill.fname == null ? '' : locals.prefill.fname;
-		prefillLName = locals.prefill.lname == null ? '' : locals.prefill.lname;
-		prefillEmail = locals.prefill.email == null ? '' : locals.prefill.email;
-	}
+	
 %>
 
 
@@ -18,42 +9,12 @@
 
 <body>
 
-	<%- include('../navbar',{page:'Login'}); %>
+	<%- include('../navbar',{page:''}); %>
+
+	<h1>stuff</h1>
 
 
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-4">
-				<form action="/user/create" method="post">
-					<div>
-				        <label>First Name:</label>
-				        <input type="text" name="fname" value="<%=prefillFName%>"/>
-				    </div>
-				    <div>
-				        <label>Last Name:</label>
-				        <input type="text" name="lname" value="<%=prefillLName%>"/>
-				    </div>
-				    <div>
-				        <label>Email:</label>
-				        <input type="text" name="email" value="<%=prefillEmail%>"/>
-				    </div>
-				    <div>
-				        <label>Password:</label>
-				        <input type="password" name="password"/>
-				    </div>
-
-				    <% if(locals.error){%>
-					    <div>
-					    	<p class='text-danger'><strong><%= error%></strong></p>
-					    </div>
-					<%}%>
-				    <div>
-				        <input type="submit" value="Create"/>
-				    </div>
-				</form>
-			</div>
-		</div>
-	</div>
+	
     
 
 

@@ -1,0 +1,77 @@
+
+<%
+	var prefillFName ='';
+	var prefillLName ='';
+	var prefillEmail ='';
+
+	if(locals.prefill)
+	{
+		prefillFName = locals.prefill.fname == null ? '' : locals.prefill.fname;
+		prefillLName = locals.prefill.lname == null ? '' : locals.prefill.lname;
+		prefillEmail = locals.prefill.email == null ? '' : locals.prefill.email;
+	}
+%>
+
+
+<%- include('../header',{extraCSS:[],extraJS:[]}); %>
+
+
+<body>
+
+	<%- include('../navbar',{page:''}); %>
+
+
+	<div class="container py-5">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="row">
+	                <div class="col-md-6 mx-auto">
+	                    <span class="anchor" id="formLogin"></span>
+
+	                    <!-- form card login -->
+	                    <div class="card rounded-0">
+	                        <div class="card-header">
+	                            <h3 class="mb-0">Create New User</h3>
+	                        </div>
+	                        <div class="card-body">
+	                            <form action="/user/create" method="post" class="form" role="form" id="formLogin">
+	                                <div class="form-group">
+	                                    <label for="fname">First Name</label>
+	                                    <input type="text" class="form-control form-control-lg rounded-0" name="fname" id="fname" value="<%=prefillFName%>" required="">
+	                                </div>
+	                                <div class="form-group">
+	                                    <label for="lname">Last Name</label>
+	                                    <input type="text" class="form-control form-control-lg rounded-0" name="lname" id="lname" value="<%=prefillLName%>" required="">
+	                                </div>
+	                                <div class="form-group">
+	                                    <label for="email">Email</label>
+	                                    <input type="text" class="form-control form-control-lg rounded-0" name="email" id="email" alue="<%=prefillEmail%>" required="">
+	                                </div>
+	                                <div class="form-group">
+	                                    <label>Password</label>
+	                                    <input type="password" class="form-control form-control-lg rounded-0" id="password" name="password" required="" autocomplete="new-password">
+	                                </div>
+	                                <% if(locals.error){%>
+									    <div>
+									    	<p class='text-danger'><strong><%= error%></strong></p>
+									    </div>
+									<%}%>
+	                                <button type="submit" class="btn btn-success btn-lg float-right">Create</button>
+	                            </form>
+	                        </div>
+	                        <!--/card-block-->
+	                    </div>
+	                    <!-- /form card login -->
+	                </div>
+	            </div>
+	            <!--/row-->
+	        </div>
+	        <!--/col-->
+	    </div>
+	    <!--/row-->
+	</div>
+	<!--/container-->
+    
+
+
+<%- include('../footer'); %>
