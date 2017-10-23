@@ -1,0 +1,80 @@
+
+<%
+
+//var pagecss = ['/stylesheets/index.css'];
+var pagejs = ['/javascripts/index.js'];
+
+
+var allReferrals = null;
+if(referrals)
+{
+	allReferrals = referrals.allReferrals ? referrals.allReferrals : null;
+}
+
+
+console.log(allReferrals);
+
+var getReferralColor = function(referral){
+	if(referral.Status == 'unread'){
+		return 'table-success'
+	}
+	else if(referral.Status =='read')
+	{
+		return 'table-warning';
+	}
+};
+
+	
+%>
+
+
+<%- include('../header',{extraCSS:[],extraJS:[]}); %>
+
+
+<body>
+
+	<%- include('../navbar',{page:'Referrals'}); %>
+
+
+    
+
+    <!-- Page Content -->
+    <div class="container mt-4">
+
+
+    <%if(allReferrals){%>
+
+    	<table class="table table-responsive table-hover">
+  			<thead class="thead-inverse">
+	    		<tr>
+		      		<th>#</th>
+		      		<th>Type</th>
+		      		<th>Name</th>
+		      		<th>Phone</th>
+		      		<th>Email</th>
+		      		<th>Client Name</th>
+		      		<th>Submit Date</th>
+		    	</tr>
+  			</thead>
+  			<tbody>
+	    		<%allReferrals.forEach(function(element){%>
+					<tr onclick="location.href = '/referral/<%=element.ReferralID%>';" class="<%=getReferralColor(element);%>">
+						<th scope="row"><%=element.ReferralID%></th>
+						<td><%=element.ReferralType%></td>
+						<td><%=element.SubmitterName%></td>
+						<td><%=element.SubmitterPhone%></td>
+						<td><%=element.SubmitterEmail%></t>
+						<td><%=element.FName + " " + element.LName%></td>
+						<td><%=element.ReferralDate%></td>
+					</li>
+		    	<%});%>
+  			</tbody>
+		</table>
+    <%}%>
+
+		</div>
+	</div>
+
+
+
+<%- include('../footer'); %>
