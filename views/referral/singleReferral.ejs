@@ -1,0 +1,59 @@
+
+<%
+
+//var pagecss = ['/stylesheets/index.css'];
+var pagejs = ['/javascripts/index.js'];
+
+
+
+var referralData = referralObject;
+
+
+	
+%>
+
+
+<%- include('../header',{extraCSS:[],extraJS:[]}); %>
+
+
+<body>
+
+	<%- include('../navbar',{page:'Referrals'}); %>
+
+
+    
+
+    <!-- Page Content -->
+    <div class="container-fluid mt-4">
+
+    <%if(referralData){%>
+    	<div class="row">
+    		<div class="col-md-4 mx-auto">
+			    <div class="card">
+				 	<div class="card-header">Client Information</div>
+				  	<div class="card-body">
+				    	<h4 class="card-title">Special title treatment</h4>
+				    	<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+				    	<a href="#" class="btn btn-primary">Go somewhere</a>
+				  	</div>
+				</div>
+    		</div>
+    	</div>
+    <%}else{%>
+    	<div class="row">
+    		<div class="col-md-6 mx-auto">
+    			<h4 class="text-danger">Couldn't find that referral</h4>
+    		</div>
+    	</div>
+    <%}%>
+    	<div class="row mt-4">
+    		<div class="col-md-6 mx-auto ">
+    			<a href="/referral" class="btn btn-primary">Back to Referrals</a>
+    		</div>
+    	</div>
+
+	</div>
+
+
+
+<%- include('../footer'); %>

@@ -17,6 +17,8 @@ var config = require('./config');
 var database = require('./database');
 var authentication = require('./lib/authentication');
 
+var helper = require('./lib/helper');
+
 var app = express();
 
 
@@ -65,7 +67,7 @@ app.use(passport.session());
 
 //config file
 app.locals.configFile = config;
-
+app.locals.helper = helper;
 
 
 

@@ -62,10 +62,10 @@ var getReferralColor = function(referral){
 						<th scope="row"><%=element.ReferralID%></th>
 						<td><%=element.ReferralType%></td>
 						<td><%=element.SubmitterName%></td>
-						<td><%=element.SubmitterPhone%></td>
+						<td><a href='tel:<%=locals.helper.prettyPhone(element.SubmitterPhone);%>'><%=locals.helper.prettyPhone(element.SubmitterPhone);%></td>
 						<td><%=element.SubmitterEmail%></t>
 						<td><%=element.FName + " " + element.LName%></td>
-						<td><%=element.ReferralDate%></td>
+						<td><%= new Date(element.ReferralDate).toLocaleString();%></td>
 					</li>
 		    	<%});%>
   			</tbody>
