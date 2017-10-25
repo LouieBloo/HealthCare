@@ -20,7 +20,7 @@ var getReferralColor = function(referral){
 	}
 	else if(referral.Status =='read')
 	{
-		return 'table-warning';
+		return 'table-danger';
 	}
 };
 
@@ -41,38 +41,41 @@ var getReferralColor = function(referral){
     <!-- Page Content -->
     <div class="container mt-4">
 
+	    
 
     <%if(allReferrals){%>
-
-    	<table class="table table-responsive table-hover">
-  			<thead class="thead-inverse">
-	    		<tr>
-		      		<th>#</th>
-		      		<th>Type</th>
-		      		<th>Name</th>
-		      		<th>Phone</th>
-		      		<th>Email</th>
-		      		<th>Client Name</th>
-		      		<th>Submit Date</th>
-		    	</tr>
-  			</thead>
-  			<tbody>
-	    		<%allReferrals.forEach(function(element){%>
-					<tr onclick="location.href = '/referral/<%=element.ReferralID%>';" class="<%=getReferralColor(element);%>">
-						<th scope="row"><%=element.ReferralID%></th>
-						<td><%=element.ReferralType%></td>
-						<td><%=element.SubmitterName%></td>
-						<td><a href='tel:<%=locals.helper.prettyPhone(element.SubmitterPhone);%>'><%=locals.helper.prettyPhone(element.SubmitterPhone);%></td>
-						<td><%=element.SubmitterEmail%></t>
-						<td><%=element.FName + " " + element.LName%></td>
-						<td><%= new Date(element.ReferralDate).toLocaleString();%></td>
-					</li>
-		    	<%});%>
-  			</tbody>
-		</table>
-    <%}%>
-
+    	<div class="row">
+    		<div class="col-12 mx-auto justify-content-center">
+		    	<table class="table table-responsive table-hover">
+		  			<thead class="thead-dark">
+			    		<tr>
+				      		<th>#</th>
+				      		<th>Type</th>
+				      		<th>Name</th>
+				      		<th>Phone</th>
+				      		<th>Email</th>
+				      		<th>Client Name</th>
+				      		<th>Submit Date</th>
+				    	</tr>
+		  			</thead>
+		  			<tbody>
+			    		<%allReferrals.forEach(function(element){%>
+							<tr onclick="location.href = '/referral/<%=element.ReferralID%>';" class="<%=getReferralColor(element);%>">
+								<td><%=element.ReferralID%></td>
+								<td><%=element.ReferralType%></td>
+								<td><%=element.SubmitterName%></td>
+								<td><a href='tel:<%=locals.helper.prettyPhone(element.SubmitterPhone);%>'><%=locals.helper.prettyPhone(element.SubmitterPhone);%></a></td>
+								<td><%=element.SubmitterEmail%></td>
+								<td><%=element.FName + " " + element.LName%></td>
+								<td><%= new Date(element.ReferralDate).toLocaleString();%></td>
+							</tr>
+				    	<%});%>
+		  			</tbody>
+				</table>
+			</div>
 		</div>
+    <%}%>
+	    <div>
 	</div>
 
 
