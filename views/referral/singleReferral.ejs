@@ -12,7 +12,7 @@ var hours = referralData.referral.Hours ? referralData.referral.Hours + " " + re
 
 var getReferralColor = function(referral){
 	if(referral == 'unread'){
-		return 'text-warning'
+		return 'text-info';
 	}
 	else if(referral =='read')
 	{
@@ -21,6 +21,10 @@ var getReferralColor = function(referral){
 	else if(referral =='completed')
 	{
 		return 'text-success';
+	}
+	else if(referral =='in-progress')
+	{
+		return 'text-warning';
 	}
 };
 
@@ -51,36 +55,67 @@ var getReferralColor = function(referral){
 				 	<div class="card-header bg-info text-white"><h5>Referral Information</h5></div>
 				  	<div class="card-body">
 
-				    	<div class="row">
-				    		<div class="col-md-12">
-				    			<table class="table table-responsive">
-						  			<tbody>
-						  				<tr>
-							    			<th><strong>Type:</strong></th>
-							    			<td><%=referralData.referral.ReferralType%></td>
-							    		</tr>
-							    		<tr>
-							    			<th><strong>Created:</strong></th>
-							    			<td><%=new Date(referralData.referral.DateAdded).toLocaleString();%></td>
-							    		</tr>
-							    		<tr>
-							    			<th><strong>Status:</strong></th>
-							    			<td class="<%=getReferralColor(referralData.referral.Status);%>"><%=referralData.referral.Status%></td>
-							    		</tr>
-							    		<tr>
-							    			<th><strong>Hours:</strong></th>
-							    			<td><%=hours%></td>
-							    		</tr>
-						  			</tbody>
-								</table>
+
+				  		<div class="row">
+				    		<div class="col-xl-3">
+				    			<strong>Type:</strong>
+				    		</div>
+				    		<div class="col-xl-9">
+				    			<%=referralData.referral.ReferralType%>
 				    		</div>
 				    	</div>
-				    	
 				    	<div class="row">
-				    		<div class="col-12 d-flex justify-content-center">
-				    			<button onclick='' class="btn btn-sm btn-success mx-2">Mark as completed</button>
-				    			<button onclick='' class="btn btn-sm btn-warning mx-2">Mark as in-progress</button>
-				    			<button onclick='' class="btn btn-sm btn-danger mx-2">Mark as unread</button>
+				    		<div class="col-xl-3">
+				    			<strong>Created:</strong>
+				    		</div>
+				    		<div class="col-xl-9">
+				    			<%=new Date(referralData.referral.DateAdded).toLocaleString();%>
+				    		</div>
+				    	</div>
+				    	<div class="row">
+				    		<div class="col-xl-3">
+				    			<strong>Status:</strong>
+				    		</div>
+				    		<div class="col-xl-9 <%=getReferralColor(referralData.referral.Status);%>">
+				    			<%=referralData.referral.Status%>
+				    		</div>
+				    	</div>
+				    	<div class="row">
+				    		<div class="col-xl-3">
+				    			<strong>Hours:</strong>
+				    		</div>
+				    		<div class="col-xl-9 ">
+				    			<%=hours%>
+				    		</div>
+				    	</div>
+				    	<%if(referralData.referral.AdditionalInfo){%>
+				    	<div class="row">
+				    		<div class="col-xl-3">
+				    			<strong>Additional Info:</strong>
+				    		</div>
+				    		<div class="col-xl-9 ">
+				    			<%=referralData.referral.AdditionalInfo%>
+				    		</div>
+				    	</div>
+				    	<%}%>
+
+
+				    	
+				    	<div class="row mt-4">
+				    		<div class="col mb-xl-0 mb-2">
+				    			<button onclick='' class="btn btn-sm btn-success">Mark as completed</button>
+				    		</div>
+				    		<div class="col mb-xl-0 mb-2">
+				    			<button onclick='' class="btn btn-sm btn-warning">Mark as in-progress</button>
+				    		</div>
+				    		<div class="col mb-xl-0 mb-2">
+				    			<button onclick='' class="btn btn-sm btn-danger">Mark as read</button>
+				    		</div>
+				    	</div>
+
+				    	<div class="row mt-4">
+				    		<div class="col-md-3">
+				    			<a href="/referral" class="btn btn-sm btn-primary">Back to Referrals</a>
 				    		</div>
 				    	</div>
 				  	</div>
@@ -89,38 +124,48 @@ var getReferralColor = function(referral){
 
 
 
-    		<div class="col-md-4">
+    		<div class="col-md-4 mt-md-0 mt-4">
 			    <div class="card">
 				 	<div class="card-header bg-primary text-white"><h5>Client Information</h5></div>
 				  	<div class="card-body">
 				    	<h4 class="card-title"><%=referralData.client.FName + " " + referralData.client.LName;%></h4>
 				    	<h6 class="card-subtitle mb-2 text-muted"><%=referralData.client.UCI%></h6>
 
+
 				    	<div class="row">
-				    		<div class="col-md-4">
-				    			<p>Name</p>
-				    			<p></p>
+				    		<div class="col-xl-3">
+				    			<strong>Phone:</strong>
 				    		</div>
-				    		<div class="col-md-4">
-				    			<p>first name
+				    		<div class="col-xl-9">
+				    			<a href="tel:<%=locals.helper.prettyPhone(referralData.client.Phone)%>"><%=locals.helper.prettyPhone(referralData.client.Phone)%></a>
 				    		</div>
-				    		<div class="col-md-4">
-				    			<p>first name
+				    	</div>
+				    	<div class="row">
+				    		<div class="col-xl-3">
+				    			<strong>Diagnosis:</strong>
+				    		</div>
+				    		<div class="col-xl-9">
+				    			<%=referralData.client.Diagnosis%>
 				    		</div>
 				    	</div>
 
-				    	<div class="row">
+				    	<!-- <div class="row">
 				    		<div class="col-md-12">
-				    			<p>Diganosis</p>
-				    			<p><%=referralData.client.Diagnosis%></p>
+				    			<table class="table table-responsive no-border-table">
+						  			<tbody>
+						  				<tr>
+							    			<th><strong>Phone:</strong></th>
+							    			<td><</td>
+							    		</tr>
+							    		<tr>
+							    			<th><strong>Diagnosis:</strong></th>
+							    			<td><%=referralData.client.Diagnosis%></td>
+							    		</tr>
+						  			</tbody>
+								</table>
 				    		</div>
-				    	</div>
+				    	</div> -->
 
-
-
-
-				    	<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				    	<a href="#" class="btn btn-primary">Go somewhere</a>
 				  	</div>
 				</div>
     		</div>
@@ -132,11 +177,7 @@ var getReferralColor = function(referral){
     		</div>
     	</div>
     <%}%>
-    	<div class="row mt-4">
-    		<div class="col-md-6 mx-auto ">
-    			<a href="/referral" class="btn btn-primary">Back to Referrals</a>
-    		</div>
-    	</div>
+    	
 
 	</div>
 

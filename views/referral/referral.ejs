@@ -22,6 +22,10 @@ var getReferralColor = function(referral){
 	{
 		return 'table-danger';
 	}
+	else if(referral.Status =='in-progress')
+	{
+		return 'table-warning';
+	}
 };
 
 	
@@ -44,6 +48,7 @@ var getReferralColor = function(referral){
 	    
 
     <%if(allReferrals){%>
+    	
     	<div class="row">
     		<div class="col-12 mx-auto justify-content-center">
 		    	<table class="table table-responsive table-hover">
@@ -74,6 +79,12 @@ var getReferralColor = function(referral){
 				</table>
 			</div>
 		</div>
+
+		<div class="row">
+    		<div class="col">
+    			<p><span class="text-success">&#9632;</span> New <span class="text-warning pl-3">&#9632;</span> In-progress <span class="text-danger pl-3">&#9632;</span> Read</p>
+    		</div>
+    	</div>
     <%}%>
 	    <div>
 	</div>

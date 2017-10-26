@@ -21,3 +21,15 @@ body {
 .card {
   height: 100%;
 }
+
+
+
+
+
+.no-border-table td{
+  border:0;
+}
+
+.no-border-table th{
+  border:0;
+}
