@@ -140,6 +140,24 @@ var getReferralColor = function(referral){
 				    			<a href="tel:<%=locals.helper.prettyPhone(referralData.client.Phone)%>"><%=locals.helper.prettyPhone(referralData.client.Phone)%></a>
 				    		</div>
 				    	</div>
+				    	<%if(referralData.client.AltPhone){%>
+				    	<div class="row">
+				    		<div class="col-xl-3">
+				    			<strong>Alt Phone:</strong>
+				    		</div>
+				    		<div class="col-xl-9">
+				    			<a href="tel:<%=locals.helper.prettyPhone(referralData.client.AltPhone)%>"><%=locals.helper.prettyPhone(referralData.client.AltPhone)%></a>
+				    		</div>
+				    	</div>
+				    	<%}%>
+				    	<div class="row">
+				    		<div class="col-xl-3">
+				    			<strong>Email:</strong>
+				    		</div>
+				    		<div class="col-xl-9">
+				    			<%=referralData.client.Email%>
+				    		</div>
+				    	</div>
 				    	<div class="row">
 				    		<div class="col-xl-3">
 				    			<strong>Diagnosis:</strong>
@@ -148,6 +166,27 @@ var getReferralColor = function(referral){
 				    			<%=referralData.client.Diagnosis%>
 				    		</div>
 				    	</div>
+				    	<%if(referralData.client.Birthday){%>
+				    	<div class="row">
+				    		<div class="col-xl-3">
+				    			<strong>DOB:</strong>
+				    		</div>
+				    		<div class="col-xl-9">
+				    			<%var dob = new Date(referralData.client.Birthday);%>
+				    			<%=dob.getMonth() + "/" + dob.getDate() + "/" + dob.getYear() + " (" + locals.helper.howManyYears(new Date(Date.now()),dob) + ")";%>
+				    		</div>
+				    	</div>
+				    	<%}%>
+				    	<%if(referralData.client.Language){%>
+				    	<div class="row">
+				    		<div class="col-xl-3">
+				    			<strong>Language:</strong>
+				    		</div>
+				    		<div class="col-xl-9">
+				    			<%=referralData.client.Language%>
+				    		</div>
+				    	</div>
+				    	<%}%>
 
 				    	<!-- <div class="row">
 				    		<div class="col-md-12">
