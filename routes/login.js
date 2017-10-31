@@ -12,11 +12,11 @@ passport.use(new LocalStrategy(
 
 	function(username, password, done) {
 
-		database.db.query('SELECT UserID,Password,Permission,Salt FROM Users WHERE Email=?',[username],function(error,results,fields){
+		database.db.query('SELECT UserID,Password,Permission,Salt FROM User WHERE Email=?',[username],function(error,results,fields){
 			
 			if(error)
 			{
-				return done("Unknown Error Occured");
+				return done(null,false);
 			}
 			else if(results == null || results.length != 1)
 			{
@@ -41,6 +41,7 @@ passport.use(new LocalStrategy(
 							return done(null,user);
 						}
 						else{
+							console.log("Error haasdfssword!");
 							return done(null,false);
 						}
 					}

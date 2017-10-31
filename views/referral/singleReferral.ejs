@@ -51,8 +51,8 @@ var getReferralColor = function(referral){
 
     		<!--options card-->
     		<div class="col-md-4">
-			    <div class="card" style="height:auto;">
-				 	<div class="card-header bg-info text-white"><h5>Referral Information</h5></div>
+			    <div class="card">
+				 	<div class="card-header bg-info text-white"><h5><i class="fa fa-id-card-o" aria-hidden="true"></i> Referral Information</h5></div>
 				  	<div class="card-body">
 
 
@@ -123,92 +123,24 @@ var getReferralColor = function(referral){
     		</div><!--end options card-->
 
 
+    		<div class="col-md-4 mt-4 mt-md-0">
+				<%- include('../user/singleUserPrefab',{person:referralData.client,cardTitle:'Consumer'}); %>
+			</div>
+			<div class="col-md-4 mt-4 mt-md-0">
+				<%- include('../user/singleUserPrefab',{person:referralData.submitter,cardTitle:'Submitter'}); %>
+			</div>
+			
 
-    		<div class="col-md-4 mt-md-0 mt-4">
-			    <div class="card">
-				 	<div class="card-header bg-primary text-white"><h5>Client Information</h5></div>
-				  	<div class="card-body">
-				    	<h4 class="card-title"><%=referralData.client.FName + " " + referralData.client.LName;%></h4>
-				    	<h6 class="card-subtitle mb-2 text-muted"><%=referralData.client.UCI%></h6>
+    	</div>
 
-
-				    	<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>Phone:</strong>
-				    		</div>
-				    		<div class="col-xl-9">
-				    			<a href="tel:<%=locals.helper.prettyPhone(referralData.client.Phone)%>"><%=locals.helper.prettyPhone(referralData.client.Phone)%></a>
-				    		</div>
-				    	</div>
-				    	<%if(referralData.client.AltPhone){%>
-				    	<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>Alt Phone:</strong>
-				    		</div>
-				    		<div class="col-xl-9">
-				    			<a href="tel:<%=locals.helper.prettyPhone(referralData.client.AltPhone)%>"><%=locals.helper.prettyPhone(referralData.client.AltPhone)%></a>
-				    		</div>
-				    	</div>
-				    	<%}%>
-				    	<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>Email:</strong>
-				    		</div>
-				    		<div class="col-xl-9">
-				    			<%=referralData.client.Email%>
-				    		</div>
-				    	</div>
-				    	<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>Diagnosis:</strong>
-				    		</div>
-				    		<div class="col-xl-9">
-				    			<%=referralData.client.Diagnosis%>
-				    		</div>
-				    	</div>
-				    	<%if(referralData.client.Birthday){%>
-				    	<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>DOB:</strong>
-				    		</div>
-				    		<div class="col-xl-9">
-				    			<%var dob = new Date(referralData.client.Birthday);%>
-				    			<%=dob.getMonth() + "/" + dob.getDate() + "/" + dob.getYear() + " (" + locals.helper.howManyYears(new Date(Date.now()),dob) + ")";%>
-				    		</div>
-				    	</div>
-				    	<%}%>
-				    	<%if(referralData.client.Language){%>
-				    	<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>Language:</strong>
-				    		</div>
-				    		<div class="col-xl-9">
-				    			<%=referralData.client.Language%>
-				    		</div>
-				    	</div>
-				    	<%}%>
-
-				    	<!-- <div class="row">
-				    		<div class="col-md-12">
-				    			<table class="table table-responsive no-border-table">
-						  			<tbody>
-						  				<tr>
-							    			<th><strong>Phone:</strong></th>
-							    			<td><</td>
-							    		</tr>
-							    		<tr>
-							    			<th><strong>Diagnosis:</strong></th>
-							    			<td><%=referralData.client.Diagnosis%></td>
-							    		</tr>
-						  			</tbody>
-								</table>
-				    		</div>
-				    	</div> -->
-
-				  	</div>
-				</div>
+    	<%if(referralData.family){%>
+    	<div class="row mt-4">
+    		<div class="col-md-4">
+    			<%-include('../user/singleUserPrefab',{person:referralData.family,cardTitle:'Family'});%>
     		</div>
     	</div>
+		<%}%>
+
     <%}else{%>
     	<div class="row">
     		<div class="col-md-6 mx-auto">

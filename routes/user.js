@@ -8,7 +8,7 @@ var authentication = require('../lib/authentication');
 
 
 
-
+//authentication.hasPermission(10),
 
 router.get('/create',authentication.hasPermission(10),function(req,res,next){
 
@@ -98,7 +98,7 @@ var isValidParameters = function(req,response)
 var isEmailInUse = function(email,response)
 {
 	var errorToReturn = [];
-	database.db.query('SELECT Email FROM Users WHERE Email=?',[email],function(error,results,fields){
+	database.db.query('SELECT Email FROM User WHERE Email=?',[email],function(error,results,fields){
 		
 		if(error)
 		{
@@ -138,11 +138,12 @@ var createNewUser = function(req,response)
 				else
 				{
 					var fname = req.body.fname.toLowerCase();
+					fname = fname[0].toUpperCase() + fname.substr(1);
 					var lname = req.body.lname.toLowerCase();
-					var name = fname[0].toUpperCase() + fname.substr(1) + " " + lname[0].toUpperCase() + lname.substr(1);
+					lname = lname[0].toUpperCase() + lname.substr(1);
 
 					//we have succesfully generated a hash of the users password and a unique salt
-					database.db.query('INSERT INTO Users (Name,Email,Password,Salt) VALUES (?,?,?,?)',[name,req.body.email,hash,salt],function(err,results){
+					database.db.query('INSERT INTO User (FName,LName,Email,Password,Salt) VALUES (?,?,?,?,?)',[fname,lname,req.body.email,hash,salt],function(err,results){
 						response(error);
 					}) ;
 				}

@@ -40,11 +40,11 @@ var getAllReferrals = function(callback)
 	database.db.query(
 		`SELECT
 			*,
-			(SELECT CONCAT(FName," ",LName) FROM ReferralPerson WHERE ReferralPerson.PersonID=Referral.Submitter) as SubmitterName,
+			(SELECT CONCAT(FName," ",LName) FROM User WHERE User.UserID=Referral.Submitter) as SubmitterName,
 			Referral.DateAdded as ReferralDate,
-			(SELECT Email FROM ReferralPerson WHERE ReferralPerson.PersonID=Referral.Submitter) as SubmitterEmail,
-			(SELECT Phone FROM ReferralPerson WHERE ReferralPerson.PersonID=Referral.Submitter) as SubmitterPhone
-		FROM Referral INNER JOIN ReferralPerson ON Referral.Client=ReferralPerson.PersonID
+			(SELECT Email FROM User WHERE User.UserID=Referral.Submitter) as SubmitterEmail,
+			(SELECT Phone FROM User WHERE User.UserID=Referral.Submitter) as SubmitterPhone
+		FROM Referral INNER JOIN User ON Referral.Client=User.UserID
 		ORDER BY ReferralID DESC`
 		,function(error,results,fields){
 		
@@ -138,7 +138,7 @@ var getPerson = function(finalResult,typeOfPersonToGet){
 
 		database.db.query(
 			`SELECT
-			PersonID,
+			UserID,
 			FName,
 			LName,
 			Phone,
@@ -149,22 +149,23 @@ var getPerson = function(finalResult,typeOfPersonToGet){
 			Relationship,
 			Diagnosis,
 			Language,
+			Address.AddressID as AddressID,
 			Address.Street as Street,
 			Address.Street2 as Street2,
 			Address.City as City,
 			Address.State as State,
 			Address.ZIP as ZIP,
-			Alt.AddressID as AltID,
+			Alt.AddressID as AltAddressID,
 			Alt.Street as AltStreet,
 			Alt.Street2 as AltStreet2,
 			Alt.City as AltCity,
 			Alt.State as AltState,
 			Alt.ZIP as AltZIP
 
-			FROM ReferralPerson
-			LEFT JOIN Address ON ReferralPerson.Address=Address.AddressID
-			LEFT JOIN Address as Alt ON ReferralPerson.AltAddress=Alt.AddressID
-			WHERE PersonID=?`
+			FROM User
+			LEFT JOIN Address ON User.Address=Address.AddressID
+			LEFT JOIN Address as Alt ON User.AltAddress=Alt.AddressID
+			WHERE UserID=?`
 			,[personID],function(error,results,fields){
 			
 			if(error)

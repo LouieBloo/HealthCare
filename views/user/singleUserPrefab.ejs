@@ -1,0 +1,94 @@
+<div class="card">
+ 	<div class="card-header bg-primary text-white"><h5><i class="fa fa-user-o" aria-hidden="true"></i> <%=cardTitle%></h5></div>
+  	<div class="card-body">
+    	<h4 class="card-title"><%=person.FName + " " + person.LName;%></h4>
+    	<%if(person.UCI){%><h6 class="card-subtitle mb-2 text-muted"><%=person.UCI%></h6><%}%>
+
+
+    	<div class="row mt-2">
+    		<div class="col-xl-3">
+    			<strong>Phone:</strong>
+    		</div>
+    		<div class="col-xl-9">
+    			<a href="tel:<%=locals.helper.prettyPhone(person.Phone)%>"><%=locals.helper.prettyPhone(person.Phone)%></a>
+    		</div>
+    	</div>
+    	<%if(person.AltPhone){%>
+    	<div class="row">
+    		<div class="col-xl-3">
+    			<strong class='text-muted'>Alt Phone:</strong>
+    		</div>
+    		<div class="col-xl-9">
+    			<a href="tel:<%=locals.helper.prettyPhone(person.AltPhone)%>"><%=locals.helper.prettyPhone(person.AltPhone)%></a>
+    		</div>
+    	</div>
+    	<%}%>
+    	<div class="row mb-3">
+    		<div class="col-xl-3">
+    			<strong>Email:</strong>
+    		</div>
+    		<div class="col-xl-9">
+    			<%=person.Email%>
+    		</div>
+    	</div>
+    	<!--address-->
+    	<%if(person.AddressID){%>
+    	<div class="row">
+    		<div class="col-xl-3">
+    			<strong>Address:</strong>
+    		</div>
+    		<div class="col-xl-9">
+    			<%var street2 = person.Street2 ? " " +person.Street2 : '';%>
+    			<%=person.Street + street2 + ", " + person.City + ", " + person.State + ", " + person.ZIP%>
+    		</div>
+    	</div>
+    	<%}%>
+    	<!--address 2-->
+    	<%if(person.AltAddressID){%>
+    	<div class="row">
+    		<div class="col-xl-3">
+    			<strong class='text-muted'>Alt-Address:</strong>
+    		</div>
+    		<div class="col-xl-9">
+    			<%var street2 = person.Street2 ? " " +person.Street2 : '';%>
+    			<%=person.AltStreet + street2 + ", " + person.AltCity + ", " + person.AltState + ", " + person.AltZIP%>
+    		</div>
+    	</div>
+    	<%}%>
+    	<%if(person.Birthday){%>
+    	<div class="row mt-3">
+    		<div class="col-xl-3">
+    			<strong>DOB:</strong>
+    		</div>
+    		<div class="col-xl-9">
+    			<%var dob = new Date(person.Birthday);%>
+    			<%=dob.getMonth() + "/" + dob.getDate() + "/" + dob.getYear() + " (" + locals.helper.howManyYears(new Date(Date.now()),dob) + ")";%>
+    		</div>
+    	</div>
+    	<%}%>
+    	<%if(person.Language){%>
+    	<div class="row">
+    		<div class="col-xl-3">
+    			<strong>Language:</strong>
+    		</div>
+    		<div class="col-xl-9">
+    			<%=person.Language%>
+    		</div>
+    	</div>
+    	<%}%>
+    	<%if(person.Diagnosis){%>
+    	<div class="row">
+    		<div class="col-xl-3">
+    			<strong>Diagnosis:</strong>
+    		</div>
+    		<div class="col-xl-9">
+    			<%=person.Diagnosis%>
+    		</div>
+    	</div>
+    	<%}%>
+    	
+    	
+    
+
+  	</div>
+</div>
