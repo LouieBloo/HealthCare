@@ -61,7 +61,7 @@ var getReferralColor = function(referral){
 				    			<strong>Type:</strong>
 				    		</div>
 				    		<div class="col-xl-9">
-				    			<%=referralData.referral.ReferralType%>
+				    			<strong class="text-primary"><%=referralData.referral.ReferralType%></strong>
 				    		</div>
 				    	</div>
 				    	<div class="row">
@@ -103,13 +103,9 @@ var getReferralColor = function(referral){
 				    	
 				    	<div class="row mt-4">
 				    		<div class="col mb-xl-0 mb-2">
-				    			<button onclick='' class="btn btn-sm btn-success">Mark as completed</button>
-				    		</div>
-				    		<div class="col mb-xl-0 mb-2">
-				    			<button onclick='' class="btn btn-sm btn-warning">Mark as in-progress</button>
-				    		</div>
-				    		<div class="col mb-xl-0 mb-2">
-				    			<button onclick='' class="btn btn-sm btn-danger">Mark as read</button>
+				    			<button onclick='' class="btn btn-sm btn-success">Completed</button>
+				    			<button onclick='' class="btn btn-sm btn-warning">In-progress</button>
+				    			<button onclick='' class="btn btn-sm btn-danger">Read</button>
 				    		</div>
 				    	</div>
 
@@ -138,8 +134,14 @@ var getReferralColor = function(referral){
     		<div class="col-md-4">
     			<%-include('../user/singleUserPrefab',{person:referralData.family,cardTitle:'Family'});%>
     		</div>
+    		<%if(referralData.worker){%>
+    		<div class="col-md-4">
+    			<%-include('../user/singleUserPrefab',{person:referralData.worker,cardTitle:'Worker'});%>
+    		</div>
+			<%}%>
     	</div>
 		<%}%>
+		
 
     <%}else{%>
     	<div class="row">
