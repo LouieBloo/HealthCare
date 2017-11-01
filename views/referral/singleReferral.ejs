@@ -2,13 +2,18 @@
 <%
 
 //var pagecss = ['/stylesheets/index.css'];
-var pagejs = ['/javascripts/index.js'];
+//var pagejs = ['/javascripts/index.js'];
 
 
 
 var referralData = referralObject;
 
-var hours = referralData.referral.Hours ? referralData.referral.Hours + " " + referralData.referral.HourType : '?';
+if(referralData)
+{
+	var hours = referralData.referral.Hours ? referralData.referral.Hours + " " + referralData.referral.HourType : '?';	
+}
+
+
 
 var getReferralColor = function(referral){
 	if(referral == 'unread'){
@@ -103,9 +108,11 @@ var getReferralColor = function(referral){
 				    	
 				    	<div class="row mt-4">
 				    		<div class="col mb-xl-0 mb-2">
-				    			<button onclick='' class="btn btn-sm btn-success">Completed</button>
-				    			<button onclick='' class="btn btn-sm btn-warning">In-progress</button>
-				    			<button onclick='' class="btn btn-sm btn-danger">Read</button>
+				    			<form action='' method='post'>
+					    			<input type="submit" value="Completed" name="action" class="btn btn-sm btn-success"/>
+					    			<input type="submit" value="In-Progress" name="action" class="btn btn-sm btn-warning"/>
+					    			<input type="submit" value="Read" name="action" class="btn btn-sm btn-danger"/>
+					    		</form>
 				    		</div>
 				    	</div>
 

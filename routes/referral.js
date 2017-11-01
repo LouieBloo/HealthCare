@@ -30,6 +30,20 @@ router.get('/:referralID',authentication.hasPermission(10),function(req,res,next
 	});
 });
 
+router.post('/:referralID',authentication.hasPermission(10),function(req,res,next){
+
+	if(req.body.action)
+	{
+		updateReferralStatus(req,function(err,results){
+			res.redirect('./' + req.params.referralID);
+		});
+	}
+	else
+	{
+		res.redirect('./' + req.params.referralID);
+	}
+
+});
 
 
 //gets all referrals in the database
@@ -106,6 +120,10 @@ var getSingleReferral = function(referralID,callback)
 		{
 			callback(error,null);
 		}
+		else if(results == null || results.length <= 0)
+		{
+			callback("no referral found",null);
+		}
 		else
 		{
 			callback(null,results[0]);
@@ -178,6 +196,44 @@ var getPerson = function(finalResult,typeOfPersonToGet){
 			}
 		});
 	});
+};
+
+
+var updateReferralStatus = function(req,callback){
+
+	var newValue = '';
+	if(req.body.action == 'Completed')
+	{
+		newValue = 'completed';
+	}
+	else if(req.body.action == 'Read')
+	{
+		newValue = 'read';
+	}
+	else if(req.body.action == 'In-Progress')
+	{
+		newValue = 'in-progress';
+	}
+
+	if(newValue)
+	{
+		database.db.query(
+			`UPDATE Referral
+				SET Status=?
+				WHERE ReferralID=?`
+			,[newValue,req.params.referralID],function(error,results,fields){
+			
+			if(error)
+			{
+				console.log("error updating referral status: " + err);
+				callback(null,null);
+			}
+			else if(results)
+			{
+				callback(null,null);
+			}
+		});
+	}
 };
 
 module.exports = router;
