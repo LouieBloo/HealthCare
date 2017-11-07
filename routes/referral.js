@@ -7,9 +7,11 @@ var authentication = require('../lib/authentication');
 
 var phone = require('phone');
 
+var pagePermission = 2;
+
 
 //show all referral route
-router.get('/',authentication.hasPermission(10),function(req,res,next){
+router.get('/',authentication.hasPermission(pagePermission),function(req,res,next){
 	getAllReferrals(function(err,response){
 		if(err){
 			res.send("Error fetching referrals! " + err);
@@ -22,15 +24,19 @@ router.get('/',authentication.hasPermission(10),function(req,res,next){
 });
 
 //single referral route
-router.get('/:referralID',authentication.hasPermission(10),function(req,res,next){
+router.get('/:referralID',authentication.hasPermission(pagePermission),function(req,res,next){
 
+	//get all the information about the referral, then call the view function to mark it as read in the database if it is unread
 	getAllSingleReferralInfo(req.params.referralID,function(err,response){
+
+		referralViewed(response,function(err,doesntmatter){
+			res.render('./referral/singleReferral',{title: 'Single Referral',referralObject:response});	//render the page regardless of the result of referral
+		});
 		
-		res.render('./referral/singleReferral',{title: 'Single Referral',referralObject:response});
 	});
 });
 
-router.post('/:referralID',authentication.hasPermission(10),function(req,res,next){
+router.post('/:referralID',authentication.hasPermission(pagePermission),function(req,res,next){
 
 	if(req.body.action)
 	{
@@ -129,6 +135,39 @@ var getSingleReferral = function(referralID,callback)
 			callback(null,results[0]);
 		}
 	});
+}
+
+var referralViewed = function(referral,callback)
+{
+	if(referral)
+	{
+		if(referral.referral.Status == 'unread')
+		{
+			database.db.query(
+				`UPDATE Referral
+				 SET Status='read'
+				WHERE ReferralID=?`
+				,[referral.referral.ReferralID],function(error,results,fields){
+				
+				if(error)
+				{
+					console.log("Error viewing referral: " + error)
+					callback(error,null);
+				}
+				else{
+					callback(null,null);
+				}
+			});
+		}
+		else
+		{
+			callback(null,null);
+		}
+	}
+	else
+	{
+		callback("No referral",null);
+	}
 }
 
 //takes in a referral object and the type of person needed

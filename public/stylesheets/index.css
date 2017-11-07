@@ -35,3 +35,7 @@ body {
 .no-border-table th{
   border:0;
 }
+
+.mousePointer{
+  cursor:pointer;
+}

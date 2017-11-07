@@ -12,7 +12,12 @@ passport.use(new LocalStrategy(
 
 	function(username, password, done) {
 
-		database.db.query('SELECT UserID,Password,Permission,Salt FROM User WHERE Email=?',[username],function(error,results,fields){
+		database.db.query(`
+			SELECT User.UserID,Password,Salt,GROUP_CONCAT(UserPermissions.Permission SEPARATOR ',') as Permission FROM User
+			LEFT JOIN UserPermissions ON User.UserID=UserPermissions.UserID
+			WHERE Email=?
+			GROUP BY User.UserID
+			`,[username],function(error,results,fields){
 			
 			if(error)
 			{
@@ -34,9 +39,16 @@ passport.use(new LocalStrategy(
 					{
 						if(results[0].Password == hash)
 						{
+
+							var permissionSplit = [];
+							if(results[0].Permission)
+							{
+								permissionSplit = results[0].Permission.split(",").map(Number);//takes the sql and returns a split string that is also cast as an int
+							}
+
 							var user = {
 								id:results[0].UserID,
-								permission:results[0].Permission
+								permission:permissionSplit
 							};
 							return done(null,user);
 						}

@@ -12,7 +12,6 @@ if(referrals)
 }
 
 
-console.log(allReferrals);
 
 var getReferralColor = function(referral){
 	if(referral.Status == 'unread'){
@@ -51,18 +50,29 @@ var getReferralColor = function(referral){
     	
     	<div class="row">
     		<div class="col-12 mx-auto justify-content-center">
-		    	<table class="table table-responsive table-hover">
-		  			<thead class="thead-dark">
+		    	<table class="display hover mousePointer" id="mainTable" cellspacing="0" width="100%">
+		  			<thead>
 			    		<tr>
 				      		<th>#</th>
 				      		<th>Type</th>
 				      		<th>Name</th>
 				      		<th>Phone</th>
 				      		<th>Email</th>
-				      		<th>Client Name</th>
+				      		<th>Consumer</th>
 				      		<th>Submit Date</th>
 				    	</tr>
 		  			</thead>
+		  			<tfoot>
+			    		<tr>
+				      		<th>#</th>
+				      		<th>Type</th>
+				      		<th>Name</th>
+				      		<th>Phone</th>
+				      		<th>Email</th>
+				      		<th>Consumer</th>
+				      		<th>Submit Date</th>
+				    	</tr>
+		  			</tfoot>
 		  			<tbody>
 			    		<%allReferrals.forEach(function(element){%>
 							<tr onclick="location.href = '/referral/<%=element.ReferralID%>';" class="<%=getReferralColor(element);%>">
@@ -89,6 +99,10 @@ var getReferralColor = function(referral){
 	    <div>
 	</div>
 
-
+	<script>
+		$('#mainTable').DataTable({
+			"order":[[0, "desc"]]
+		});
+	</script>
 
 <%- include('../footer'); %>
