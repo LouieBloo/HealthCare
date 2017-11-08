@@ -48,106 +48,152 @@ var getReferralColor = function(referral){
     
 
     <!-- Page Content -->
-    <div class="container-fluid mt-4">
+    <div class="container mt-4">
 
     <%if(referralData){%>
 
     	<div class="row">
 
     		<!--options card-->
-    		<div class="col-md-4">
+    		<div class="col-md-12">
 			    <div class="card">
 				 	<div class="card-header bg-info text-white"><h5><i class="fa fa-id-card-o" aria-hidden="true"></i> Referral Information</h5></div>
 				  	<div class="card-body">
 
-
 				  		<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>Type:</strong>
-				    		</div>
-				    		<div class="col-xl-9">
-				    			<strong class="text-primary"><%=referralData.referral.ReferralType%></strong>
-				    		</div>
-				    	</div>
-				    	<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>Created:</strong>
-				    		</div>
-				    		<div class="col-xl-9">
-				    			<%=new Date(referralData.referral.DateAdded).toLocaleString();%>
-				    		</div>
-				    	</div>
-				    	<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>Status:</strong>
-				    		</div>
-				    		<div class="col-xl-9 <%=getReferralColor(referralData.referral.Status);%>">
-				    			<%=referralData.referral.Status%>
-				    		</div>
-				    	</div>
-				    	<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>Hours:</strong>
-				    		</div>
-				    		<div class="col-xl-9 ">
-				    			<%=hours%>
-				    		</div>
-				    	</div>
-				    	<%if(referralData.referral.AdditionalInfo){%>
-				    	<div class="row">
-				    		<div class="col-xl-3">
-				    			<strong>Additional Info:</strong>
-				    		</div>
-				    		<div class="col-xl-9 ">
-				    			<%=referralData.referral.AdditionalInfo%>
-				    		</div>
-				    	</div>
-				    	<%}%>
+				  			<div class="col-md-5">
+						  		<div class="row">
+						    		<div class="col-xl-3">
+						    			<strong>Type:</strong>
+						    		</div>
+						    		<div class="col-xl-9">
+						    			<strong class="text-primary"><%=referralData.referral.ReferralType%></strong>
+						    		</div>
+						    	</div>
+						    	<div class="row">
+						    		<div class="col-xl-3">
+						    			<strong>Created:</strong>
+						    		</div>
+						    		<div class="col-xl-9">
+						    			<%=new Date(referralData.referral.DateAdded).toLocaleString();%>
+						    		</div>
+						    	</div>
+						    	<div class="row">
+						    		<div class="col-xl-3">
+						    			<strong>Status:</strong>
+						    		</div>
+						    		<div class="col-xl-9 <%=getReferralColor(referralData.referral.Status);%>">
+						    			<%=referralData.referral.Status%>
+						    		</div>
+						    	</div>
+						    	<div class="row">
+						    		<div class="col-xl-3">
+						    			<strong>Hours:</strong>
+						    		</div>
+						    		<div class="col-xl-9 ">
+						    			<%=hours%>
+						    		</div>
+						    	</div>
+						    	<%if(referralData.referral.AdditionalInfo){%>
+						    	<div class="row">
+						    		<div class="col-xl-3">
+						    			<strong>Additional Info:</strong>
+						    		</div>
+						    		<div class="col-xl-9 ">
+						    			<%=referralData.referral.AdditionalInfo%>
+						    		</div>
+						    	</div>
+						    	<%}%>
+						    	
+						    	<div class="row mt-4">
+						    		<div class="col mb-xl-0 mb-2">
+						    			<label><strong>Mark as:</strong></label>
+						    			<form action='' method='post'>
+							    			<input type="submit" value="Completed" name="action" class="btn btn-sm btn-success"/>
+							    			<input type="submit" value="In-Progress" name="action" class="btn btn-sm btn-warning"/>
+							    			<input type="submit" value="Read" name="action" class="btn btn-sm btn-danger"/>
+							    		</form>
+						    		</div>
+						    	</div>
+
+						    	<div class="row mt-4">
+						    		<div class="col-md-3">
+						    			<a href="/referral" class="btn btn-sm btn-primary">Back to Referrals</a>
+						    		</div>
+						    	</div>
+						    </div>
+
+							<div class="col-md-7 mt-4 mt-md-0">
 
 
-				    	
-				    	<div class="row mt-4">
-				    		<div class="col mb-xl-0 mb-2">
-				    			<form action='' method='post'>
-					    			<input type="submit" value="Completed" name="action" class="btn btn-sm btn-success"/>
-					    			<input type="submit" value="In-Progress" name="action" class="btn btn-sm btn-warning"/>
-					    			<input type="submit" value="Read" name="action" class="btn btn-sm btn-danger"/>
-					    		</form>
-				    		</div>
-				    	</div>
+								<ul class="nav nav-tabs" id="myTab" role="tablist">
+								 	<li class="nav-item">
+								    	<a class="nav-link active" id="consumerTab" data-toggle="tab" href="#consumer" role="tab" aria-controls="consumer" aria-selected="true"><i class="fa fa-user-circle" aria-hidden="true"></i>Consumer</a>
+								  	</li>
+								  	<li class="nav-item">
+								    	<a class="nav-link" id="submitterTab" data-toggle="tab" href="#submitter" role="tab" aria-controls="submitter" aria-selected="false"><i class="fa fa-mobile" aria-hidden="true"></i>Submitter</a>
+								  	</li>
+								  	<%if(referralData.worker){%>
+								  	<li class="nav-item">
+								    	<a class="nav-link" id="workerTab" data-toggle="tab" href="#worker" role="tab" aria-controls="worker" aria-selected="false"><i class="fa fa-briefcase" aria-hidden="true"></i>Worker</a>
+								  	</li>
+								  	<%}%>
+								  	<%if(referralData.family){%>
+								  	<li class="nav-item">
+								    	<a class="nav-link" id="familyTab" data-toggle="tab" href="#family" role="tab" aria-controls="family" aria-selected="false"><i class="fa fa-heart" aria-hidden="true"></i>Family</a>
+								  	</li>
+								  	<%}%>
+								</ul>
+								<div class="tab-content" id="myTabContent">
+								  	<div class="tab-pane fade show active" id="consumer" role="tabpanel" aria-labelledby="consumerTab">
+								  		<div class="row mt-4 pl-4">
+								  			<div class="col-12">
+								  				<%- include('../user/singleUserSmallProfile',{person:referralData.client,cardTitle:'Consumer'}); %>
+								  			</div>
+								  		</div>
+								  	</div>
+								  	<div class="tab-pane fade" id="submitter" role="tabpanel" aria-labelledby="submitterTab">
+								  		<div class="row mt-4 pl-4">
+								  			<div class="col-12">
+								  				<%- include('../user/singleUserSmallProfile',{person:referralData.submitter,cardTitle:'Submitter'}); %>
+								  			</div>
+								  		</div>
+								  	</div>
+								  	<%if(referralData.worker){%>
+								  	<div class="tab-pane fade" id="worker" role="tabpanel" aria-labelledby="workerTab">
+								  		<div class="row mt-4 pl-4">
+								  			<div class="col-12">
+								  				<%-include('../user/singleUserSmallProfile',{person:referralData.worker,cardTitle:'Worker'});%>
+								  			</div>
+								  		</div>
+								  	</div>
+								  	<%}%>
+								  	<%if(referralData.family){%>
+								  	<div class="tab-pane fade" id="family" role="tabpanel" aria-labelledby="familyTab">
+								  		<div class="row mt-4 pl-4">
+								  			<div class="col-12">
+								  				<%-include('../user/singleUserSmallProfile',{person:referralData.family,cardTitle:'Family'});%>
+								  			</div>
+								  		</div>
+								  	</div>
+								  	<%}%>
+								</div>
 
-				    	<div class="row mt-4">
-				    		<div class="col-md-3">
-				    			<a href="/referral" class="btn btn-sm btn-primary">Back to Referrals</a>
-				    		</div>
-				    	</div>
-				  	</div>
+
+							</div>
+					    </div>
+
+				  	</div><!--card body-->
 				</div>
     		</div><!--end options card-->
 
 
-    		<div class="col-md-4 mt-4 mt-md-0">
-				<%- include('../user/singleUserPrefab',{person:referralData.client,cardTitle:'Consumer'}); %>
-			</div>
-			<div class="col-md-4 mt-4 mt-md-0">
-				<%- include('../user/singleUserPrefab',{person:referralData.submitter,cardTitle:'Submitter'}); %>
-			</div>
+    		
 			
 
     	</div>
 
-    	<%if(referralData.family){%>
-    	<div class="row mt-4">
-    		<div class="col-md-4">
-    			<%-include('../user/singleUserPrefab',{person:referralData.family,cardTitle:'Family'});%>
-    		</div>
-    		<%if(referralData.worker){%>
-    		<div class="col-md-4">
-    			<%-include('../user/singleUserPrefab',{person:referralData.worker,cardTitle:'Worker'});%>
-    		</div>
-			<%}%>
-    	</div>
-		<%}%>
+
 		
 
     <%}else{%>
