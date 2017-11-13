@@ -9,7 +9,7 @@ var session = require('express-session');
 var mySqlSessionStore = require('express-mysql-session')(session);
 
 var index = require('./routes/index');
-var users = require('./routes/user');
+var users = require('./routes/user/user');
 var login = require('./routes/login');
 var referral = require('./routes/referral');
 
@@ -74,7 +74,7 @@ app.locals.helper = helper;
 //routing
 
 app.use('/', [authentication.isLoggedIn,index]);
-app.use('/user', users);
+app.use('/users', users);
 
 app.use('/login', login);
 

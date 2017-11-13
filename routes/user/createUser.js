@@ -1,23 +1,21 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('validator');
-var database = require('../database');
+var database = require('../../database');
 var bcrypt = require('bcrypt');
 
-var authentication = require('../lib/authentication');
+var authentication = require('../../lib/authentication');
 
 
 
-//authentication.hasPermission(10),
 
-router.get('/create',authentication.hasPermission(10),function(req,res,next){
-
+var createPage = function(req,res,next)
+{
 	renderCreateUserPage(res,'New User');
+};
 
-});
-
-router.post('/create',authentication.hasPermission(10),function(req,res,next){
-
+var createUser = function(req,res,next)
+{
 	isValidParameters(req,function(error){
 
 		if(error.length > 0)//user entered in invalid stuff, rerender page with the error and there original entries
@@ -48,8 +46,8 @@ router.post('/create',authentication.hasPermission(10),function(req,res,next){
 			});
 		}
 	});
+};
 
-});
 
 var renderCreateUserPage = function(res,title,error,prefill)
 {
@@ -152,4 +150,5 @@ var createNewUser = function(req,response)
 	});
 };
 
-module.exports = router;
+module.exports.createPage = createPage;
+module.exports.createUser = createUser;

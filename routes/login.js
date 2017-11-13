@@ -13,7 +13,8 @@ passport.use(new LocalStrategy(
 	function(username, password, done) {
 
 		database.db.query(`
-			SELECT User.UserID,Password,Salt,GROUP_CONCAT(PermissionGroups.PermissionArray SEPARATOR ',') as Permission, User.PermissionExceptions FROM User
+			SELECT CONCAT(FName,' ',LName) as Name, User.UserID,Password,Salt,GROUP_CONCAT(PermissionGroups.PermissionArray SEPARATOR ',') as Permission, User.PermissionExceptions 
+			FROM User
 			LEFT JOIN UserPermissions ON User.UserID=UserPermissions.UserID
 			LEFT JOIN PermissionGroups ON UserPermissions.Group=PermissionGroups.GroupID
 			WHERE Email=?
@@ -54,7 +55,8 @@ passport.use(new LocalStrategy(
 
 							var user = {
 								id:results[0].UserID,
-								permission:permissionSplit
+								permission:permissionSplit,
+								name:results[0].Name
 							};
 							return done(null,user);//goes to passport and sets the cookie
 						}
