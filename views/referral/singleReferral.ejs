@@ -104,6 +104,18 @@ var getReferralColor = function(referral){
 						    		</div>
 						    	</div>
 						    	<%}%>
+						    	<br>
+						    	<div class="row">
+						    		<div class="col-12">
+						    			<strong>Files:</strong>
+						    		</div>
+						    		<div class="col-12 ">
+						    			<a href="/referral/download/<%=referralData.referral.ReferralID + '/' + referralData.files.ipp%>"  download><i class="fa fa-book" aria-hidden="true"></i>IPP Download</a>
+						    		</div>
+						    		<div class="col-12 ">
+						    			<a href="/referral/download/<%=referralData.referral.ReferralID + '/' + referralData.files.cder%>" download><i class="fa fa-file-code-o" aria-hidden="true"></i>CDER Download</a>
+						    		</div>
+						    	</div>
 						    	
 						    	<div class="row mt-4">
 						    		<div class="col mb-xl-0 mb-2">

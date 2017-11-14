@@ -73,6 +73,10 @@ app.locals.helper = helper;
 
 //routing
 
+
+
+app.use(express.static(__dirname + '/public'));
+
 app.use('/', [authentication.isLoggedIn,index]);
 app.use('/users', users);
 

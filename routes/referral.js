@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var validator = require('validator');
 var database = require('../database');
+var fs = require('fs');
 
 var authentication = require('../lib/authentication');
 
@@ -9,6 +10,7 @@ var phone = require('phone');
 
 var pagePermission = 2;
 
+var configFile = require('../config.js');
 
 //show all referral route
 router.get('/',authentication.hasPermission(pagePermission),function(req,res,next){
@@ -50,6 +52,9 @@ router.post('/:referralID',authentication.hasPermission(pagePermission),function
 	}
 
 });
+
+//download links
+router.use('/download',authentication.hasPermission(pagePermission),express.static(configFile.fileUploadFolder+"/referral"));
 
 
 //gets all referrals in the database
@@ -94,12 +99,13 @@ var getAllSingleReferralInfo = function(referralID,callback)
 		else
 		{
 			finalResult.referral = response;
-			Promise.all([getPerson(finalResult,'client'),getPerson(finalResult,'worker'),getPerson(finalResult,'family'),getPerson(finalResult,'submitter')]).then(function(results){
+			Promise.all([getPerson(finalResult,'client'),getPerson(finalResult,'worker'),getPerson(finalResult,'family'),getPerson(finalResult,'submitter'),getReferralFiles(finalResult)]).then(function(results){
 
 				finalResult.client = results[0];
 				finalResult.worker = results[1];
 				finalResult.family = results[2];
 				finalResult.submitter = results[3];
+				finalResult.files = results[4];
 
 				callback(null,finalResult);
 			})
@@ -236,6 +242,43 @@ var getPerson = function(finalResult,typeOfPersonToGet){
 		});
 	});
 };
+
+//gets the ipp and cder file names and returns them
+var getReferralFiles = function(finalResult){
+	return new Promise((resolve,reject) =>{
+
+		var filePathsToReturn = {ipp:'',cder:''};
+
+		fs.readdir(configFile.fileUploadFolder+"/referral/" +finalResult.referral.ReferralID,(err,files)=>{
+
+			if(err || files.length == 0)
+			{
+				resolve(filePathsToReturn)
+			}
+			else
+			{
+				var count = 0;
+				files.forEach(file=>{
+					console.log(file);
+					if(file.split('_')[0] == 'ipp')
+					{
+						filePathsToReturn.ipp = file;
+					}
+					else if(file.split('_')[0] == 'cder')
+					{
+						filePathsToReturn.cder = file;	
+					}
+					count++;
+					if(count == files.length)
+					{
+						resolve(filePathsToReturn)
+					}
+				});
+			}
+		});
+		
+	});
+}; 
 
 
 var updateReferralStatus = function(req,callback){
