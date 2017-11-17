@@ -7,7 +7,7 @@ var authentication = require('../lib/authentication');
 
 
 var renderHomePage = function(req,res,next){
-	res.render('index', { title: 'Dirt Services' ,user:req.user});
+	res.render('index', { title: 'Dirt Services'});
 }
 
 // router.get('/', function(req, res, next) {

@@ -77,6 +77,12 @@ app.locals.helper = helper;
 
 app.use(express.static(__dirname + '/public'));
 
+//sets the user object into the res variable to be used in all ejs files
+app.use(function(req,res,next){
+  res.locals.user = req.user;
+  next();
+});
+
 app.use('/', [authentication.isLoggedIn,index]);
 app.use('/users', users);
 

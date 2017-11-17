@@ -13,12 +13,14 @@ passport.use(new LocalStrategy(
 	function(username, password, done) {
 
 		database.db.query(`
-			SELECT CONCAT(FName,' ',LName) as Name, User.UserID,Password,Salt,GROUP_CONCAT(PermissionGroups.PermissionArray SEPARATOR ',') as Permission, User.PermissionExceptions 
+			SELECT CONCAT(FName,' ',LName) as Name, User.UserID,Password,Salt,GROUP_CONCAT(PermissionGroups.PermissionArray SEPARATOR ',') as Permission, User.PermissionExceptions, Role.RoleName as RoleName,Subrole.RoleName as SubRoleName
 			FROM User
 			LEFT JOIN UserPermissions ON User.UserID=UserPermissions.UserID
 			LEFT JOIN PermissionGroups ON UserPermissions.Group=PermissionGroups.GroupID
+            LEFT JOIN UserRoles as Role ON User.Role=Role.RoleID
+            LEFT JOIN UserRoles as Subrole ON User.SubRole=Subrole.RoleID
 			WHERE Email=?
-			GROUP BY User.UserID
+			GROUP BY User.UserID, Role.RoleName,Subrole.RoleName
 			`,[username],function(error,results,fields){
 			
 			if(error)
@@ -56,7 +58,9 @@ passport.use(new LocalStrategy(
 							var user = {
 								id:results[0].UserID,
 								permission:permissionSplit,
-								name:results[0].Name
+								name:results[0].Name,
+								role:results[0].RoleName,
+								subRole:results[0].SubRoleName
 							};
 							return done(null,user);//goes to passport and sets the cookie
 						}
@@ -104,3 +108,4 @@ router.post('/create',function(req,res,next){
 
 
 module.exports = router;
+

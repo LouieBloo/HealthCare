@@ -15,7 +15,8 @@ var pagejs = ['/javascripts/index.js'];
 	<%- include('./navbar',{page:'Home'}); %>
 
 
-    <h2>Welcome <%=user.name.split(' ')[0]%></h2>
+    <h2>Welcome <%=locals.user.name.split(' ')[0]%></h2>
+
 
 
 <%- include('./footer'); %>
