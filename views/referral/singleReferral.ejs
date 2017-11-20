@@ -33,7 +33,6 @@ var getReferralColor = function(referral){
 	}
 };
 
-	
 %>
 
 
@@ -161,6 +160,12 @@ var getReferralColor = function(referral){
 								  		<div class="row mt-4 pl-4">
 								  			<div class="col-12">
 								  				<%- include('../user/singleUserSmallProfile',{person:referralData.client,cardTitle:'Consumer'}); %>
+								  				<%if(referralData.client.Role == 9){%>
+									  				<form name="consumerAdd" action='' method='post' class="mt-4">
+									  					<input type="hidden" name="ConsumerID" value="<%=referralData.client.UserID%>">
+										    			<input type="submit" value="Add Consumer" name="AddConsumer" class="btn btn-sm btn-success"/>
+										    		</form>
+										    	<%}%>
 								  			</div>
 								  		</div>
 								  	</div>

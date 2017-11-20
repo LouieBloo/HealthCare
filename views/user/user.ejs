@@ -1,5 +1,14 @@
 
 <%
+
+var consumerObject = consumers != null ? consumers : null;
+var userCountObject = userCounts != null ? userCounts : null;
+
+var consumerCount = userCountObject.find(x=> x.RoleName=="Consumer");
+consumerCount = consumerCount != null ? consumerCount.Count : 0;
+
+var employeeCount = userCountObject.find(x=> x.RoleName=="Employee");
+employeeCount = employeeCount != null ? employeeCount.Count : 0;
 	
 %>
 
@@ -11,11 +20,76 @@
 
 	<%- include('../navbar',{page:''}); %>
 
-	<h1>stuff</h1>
+
+	    <!-- Counts Section -->
+		<section class="dashboard-counts section-padding" style="padding-top:0px;">
+	        <div class="container-fluid">
+	          	<div class="row">
+	            	<div class="col-xl-2 col-md-4 col-6">
+	              		<div class="wrapper count-title d-flex">
+	                		<div class="icon"><i class="fa fa-user" aria-hidden="true"></i></div>
+		                	<div class="name"><strong class="text-uppercase">Consumers</strong><span>Total</span>
+		                		<div class="count-number">
+		                			<%=consumerCount%>
+		                		</div>
+		                	</div>
+	              		</div>
+	            	</div>
+	           		<div class="col-xl-2 col-md-4 col-6">
+	              		<div class="wrapper count-title d-flex">
+	                		<div class="icon"><i class="fa fa-briefcase" aria-hidden="true"></i></div>
+	                		<div class="name"><strong class="text-uppercase">Employees</strong><span>Total</span>
+	                  			<div class="count-number">
+	                  				<%=employeeCount%>
+	                  			</div>
+	                		</div>
+	              		</div>
+	            	</div>
+	          	</div>
+	        </div>
+	    </section>
+
+
+	    <section class="dashboard-header section-padding">
+		    <div class="container-fluid">
+		    	<div class="row">
+		    		<div class="col-12 mx-auto justify-content-center">
+				    	<table class="display hover mousePointer" id="consumerTable" cellspacing="0" width="100%">
+				  			<thead>
+					    		<tr>
+						      		<th>User ID</th>
+						      		<th>Name</th>
+						      		<th>Phone</th>
+						      		<th>Email</th>
+						    	</tr>
+				  			</thead>
+				  			<tbody>
+					    		<%consumerObject.forEach(function(element){%>
+									<tr onclick="location.href = '/users/consumer/<%=element.UserID%>';">
+										<td><%=element.UserID%></td>
+										<td><%=element.FName + " " + element.LName%></td>
+										<td><a href='tel:<%=locals.helper.prettyPhone(element.Phone);%>'><%=locals.helper.prettyPhone(element.Phone);%></a></td>
+										<td><%=element.Email%></td>
+									</tr>
+						    	<%});%>
+				  			</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+
+
 
 
 	
-    
+    <script>
+		$('#consumerTable').DataTable({
+			"order":[[0, "desc"]]
+		});
+	</script>
 
 
 <%- include('../footer'); %>

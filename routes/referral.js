@@ -3,10 +3,11 @@ var router = express.Router();
 var validator = require('validator');
 var database = require('../database');
 var fs = require('fs');
+var phone = require('phone');
 
 var authentication = require('../lib/authentication');
+var addUsers = require('../lib/users/addUsers');
 
-var phone = require('phone');
 
 var pagePermission = 2;
 
@@ -40,9 +41,17 @@ router.get('/:referralID',authentication.hasPermission(pagePermission),function(
 
 router.post('/:referralID',authentication.hasPermission(pagePermission),function(req,res,next){
 
-	if(req.body.action)
+	console.log(req.body);
+
+	if(req.body.action)//updates referral status
 	{
 		updateReferralStatus(req,function(err,results){
+			res.redirect('./' + req.params.referralID);
+		});
+	}
+	else if(req.body.AddConsumer)//marks the consumer as a valid client
+	{
+		addUsers.addConsumerFromReferral(req.body.ConsumerID,function(err,result){
 			res.redirect('./' + req.params.referralID);
 		});
 	}
@@ -212,6 +221,7 @@ var getPerson = function(finalResult,typeOfPersonToGet){
 			Relationship,
 			Diagnosis,
 			Language,
+			Role,
 			Address.AddressID as AddressID,
 			Address.Street as Street,
 			Address.Street2 as Street2,
@@ -259,7 +269,6 @@ var getReferralFiles = function(finalResult){
 			{
 				var count = 0;
 				files.forEach(file=>{
-					console.log(file);
 					if(file.split('_')[0] == 'ipp')
 					{
 						filePathsToReturn.ipp = file;
