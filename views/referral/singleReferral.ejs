@@ -10,7 +10,7 @@ var referralData = referralObject;
 
 if(referralData)
 {
-	var hours = referralData.referral.Hours ? referralData.referral.Hours + " " + referralData.referral.HourType : '?';	
+	var hours = referralData.referral.Hours ? referralData.referral.Hours + " " + referralData.referral.HourName : '?';	
 }
 
 
@@ -66,7 +66,7 @@ var getReferralColor = function(referral){
 						    			<strong>Type:</strong>
 						    		</div>
 						    		<div class="col-xl-9">
-						    			<strong class="text-primary"><%=referralData.referral.ReferralType%></strong>
+						    			<strong class="text-primary"><%=referralData.referral.TypeName%></strong>
 						    		</div>
 						    	</div>
 						    	<div class="row">

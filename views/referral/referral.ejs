@@ -77,7 +77,7 @@ var getReferralColor = function(referral){
 			    		<%allReferrals.forEach(function(element){%>
 							<tr onclick="location.href = '/referral/<%=element.ReferralID%>';" class="<%=getReferralColor(element);%>">
 								<td><%=element.ReferralID%></td>
-								<td><%=element.ReferralType%></td>
+								<td><%=element.TypeName%></td>
 								<td><%=element.SubmitterName%></td>
 								<td><a href='tel:<%=locals.helper.prettyPhone(element.SubmitterPhone);%>'><%=locals.helper.prettyPhone(element.SubmitterPhone);%></a></td>
 								<td><%=element.SubmitterEmail%></td>

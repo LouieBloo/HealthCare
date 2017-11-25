@@ -1,6 +1,11 @@
-
 <%
 
+
+var consumer = data != null || data !=[] ? data : null;
+var notes = notes != null ? notes : null;
+var files = files != null ? files : null;
+
+//console.log(consumer);
 	
 %>
 
@@ -14,7 +19,105 @@
 
 
 	    
+	<!-- Page Content -->
+    <div class="container-fluid">
 
+    <%if(consumer){%>
+
+    	<div class="row">
+
+    		<div class="col-md-8">
+    			<div class="row">
+    				<!--options card-->
+		    		<div class="col-md-6">
+					    <div class="card">
+						 	<div class="card-header"><h4><i class="fa fa-user" aria-hidden="true"></i>Consumer Info</h4></div>
+						  	<div class="card-body">
+						  		<%- include('../singleUserSmallProfile',{person:consumer,cardTitle:'Submitter'}); %>
+						  	</div><!--card body-->
+						</div>
+		    		</div><!--end options card-->
+
+		    		<div class="col-md-6  mt-md-0 mt-4">
+					    <div class="card">
+						 	<div class="card-header"><h4><i class="fa fa-credit-card" aria-hidden="true"></i>Payer Information</h4></div>
+						  	<div class="card-body">
+						  		<%- include('../singleUserSmallProfile',{person:consumer,cardTitle:'Submitter'}); %>
+						  	</div><!--card body-->
+						</div>
+		    		</div>
+
+		    		<div class="col-md-6 mt-4">
+					    <div class="card">
+						 	<div class="card-header"><h4><i class="fa fa-file-code-o" aria-hidden="true"></i>Files</h4></div>
+						  	<div class="card-body">
+						  	<%if(files){%>
+						  		<div class="row">
+						  			<%files.forEach(function(element){%>
+						  				<div class="col-12"><a href="/users/download/consumer/<%=consumer.UserID%>/files/<%=element%>" download><%=element%></a></div>
+						  			<%});%>
+						  		</div>
+						  	<%}%>
+
+						  	</div><!--card body-->
+						</div>
+		    		</div>
+    			</div>
+    		</div>
+
+    		<div class="col-md-4  mt-md-0 mt-4" style="height:100%;">
+			    <div class="card">
+				 	<div class="card-header"><h4><i class="fa fa-sticky-note-o" aria-hidden="true"></i>Notes</h4></div>
+				  	<div class="">
+				  		<div>
+				  			<%if(notes){%>
+					  			<ul class="list-unstyled">
+					  				<%notes.forEach(function(element){%>
+						  				<li class="userNotes pl-4 pr-4 pt-2 pb-2">
+						  					<div class="row">
+						  						<div class="col-12"><%=element.Note%></div>
+						  						<div class="col-12 text-muted"><small>- <%=element.AuthorName%> <%=new Date(element.DateModified).toLocaleString()%></small></div>
+						  					</div>
+					                    </li>
+				                    <%});%>
+					  			</ul>
+				  			<%}else{%>
+				  				<p>No notes</p>
+				  			<%}%>
+				  		</div>
+
+				  		<div class="card-body">
+					  		<form name="NoteForm" action='' method="post">
+					  			<div class="form-group">
+					  				<label for="newNote">New Note</label>
+					  				<textarea class="form-control" name="newNote" id="newNote" row=3></textarea>
+					  				<input class="btn btn-primary mt-2" type='submit'>
+					  			</div>
+
+					  		</form>
+					  	</div>
+				  	</div><!--card body-->
+				</div>
+    		</div>
+
+    		
+			
+
+    	</div>
+
+
+		
+
+    <%}else{%>
+    	<div class="row">
+    		<div class="col-md-6 mx-auto">
+    			<h4 class="text-danger">Couldn't find that consumer!</h4>
+    		</div>
+    	</div>
+    <%}%>
+    	
+
+	</div>
 
 
 

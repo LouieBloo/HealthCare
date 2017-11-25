@@ -51,8 +51,15 @@ router.post('/:referralID',authentication.hasPermission(pagePermission),function
 	}
 	else if(req.body.AddConsumer)//marks the consumer as a valid client
 	{
-		addUsers.addConsumerFromReferral(req.body.ConsumerID,function(err,result){
-			res.redirect('./' + req.params.referralID);
+		addUsers.addConsumerFromReferral(req.body.ConsumerID,req.params.referralID,function(err,result){
+			if(err)
+			{
+				res.send("Error adding consumer: " + err);
+			}
+			else
+			{
+				res.redirect('./' + req.params.referralID);	
+			}
 		});
 	}
 	else
@@ -78,7 +85,9 @@ var getAllReferrals = function(callback)
 			Referral.DateAdded as ReferralDate,
 			(SELECT Email FROM User WHERE User.UserID=Referral.Submitter) as SubmitterEmail,
 			(SELECT Phone FROM User WHERE User.UserID=Referral.Submitter) as SubmitterPhone
-		FROM Referral INNER JOIN User ON Referral.Client=User.UserID
+		FROM Referral
+        INNER JOIN User ON Referral.Client=User.UserID
+        LEFT JOIN ConsumerTypes ON Referral.ReferralType=ConsumerTypes.TypeID
 		ORDER BY ReferralID DESC`
 		,function(error,results,fields){
 		
@@ -133,8 +142,10 @@ var getSingleReferral = function(referralID,callback)
 {
 	database.db.query(
 		`SELECT *
-		FROM Referral
-		WHERE ReferralID=?`
+			FROM Referral
+			LEFT JOIN ConsumerTypes ON Referral.ReferralType=ConsumerTypes.TypeID
+			LEFT JOIN HourType ON Referral.HourType=HourType.TypeID
+			WHERE ReferralID=?`
 		,[referralID],function(error,results,fields){
 		
 		if(error)
@@ -220,6 +231,10 @@ var getPerson = function(finalResult,typeOfPersonToGet){
 			Birthday,
 			Relationship,
 			Diagnosis,
+            Type,
+            TypeName,
+            Status,
+            StatusName,
 			Language,
 			Role,
 			Address.AddressID as AddressID,
@@ -238,6 +253,9 @@ var getPerson = function(finalResult,typeOfPersonToGet){
 			FROM User
 			LEFT JOIN Address ON User.Address=Address.AddressID
 			LEFT JOIN Address as Alt ON User.AltAddress=Alt.AddressID
+            LEFT JOIN ConsumerDetails ON User.UserID=ConsumerDetails.ConsumerID
+            LEFT JOIN ConsumerTypes ON ConsumerDetails.Type=ConsumerTypes.TypeID
+            LEFT JOIN ConsumerStatuses ON ConsumerStatuses.StatusID = ConsumerDetails.Status
 			WHERE UserID=?`
 			,[personID],function(error,results,fields){
 			

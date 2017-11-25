@@ -1,4 +1,11 @@
-    	<h1 class="card-title"><%=person.FName + " " + person.LName;%></h1>
+    	
+        <h1 class="card-title">
+        <%if(person.Role != 9){%>
+            <a href='/users/consumer/<%=person.UserID%>'><%=person.FName + " " + person.LName;%></a>
+        <%}else{%>
+            <%=person.FName + " " + person.LName;%>
+        <%}%>
+        </h1>
     	<%if(person.UCI){%><h6 class="card-subtitle mb-2 text-muted"><%=person.UCI%></h6><%}%>
 
 
@@ -59,7 +66,7 @@
     		</div>
     		<div class="col-xl-9">
     			<%var dob = new Date(person.Birthday);%>
-    			<%=dob.getMonth() + "/" + dob.getDate() + "/" + dob.getYear() + " (" + locals.helper.howManyYears(new Date(Date.now()),dob) + ")";%>
+    			<%=dob.getMonth()+1 + "/" + dob.getDate() + "/" + dob.getFullYear() + " (" + locals.helper.howManyYears(new Date(Date.now()),dob) + ")";%>
     		</div>
     	</div>
     	<%}%>
