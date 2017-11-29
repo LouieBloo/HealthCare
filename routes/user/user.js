@@ -4,6 +4,8 @@ var validator = require('validator');
 var database = require('../../database');
 var bcrypt = require('bcrypt');
 
+const fileUpload = require('express-fileupload');
+
 var createUser = require('./createUser');
 var userHomePage = require('./userHomePage');
 var consumer = require('./consumer/consumer');
@@ -15,6 +17,7 @@ var homePagePermission = 4;
 var createUserPermission = 3;
 var viewConsumersPermission = 5;
 var downloadConsumerFilesPermission = 6;
+
 
 //main home page route
 router.get('/',authentication.hasPermission(homePagePermission),userHomePage.homePageRoute);
@@ -35,13 +38,13 @@ router.post('/create',authentication.hasPermission(createUserPermission),functio
 
 router.get('/consumer/:consumerID',authentication.hasPermission(viewConsumersPermission),consumer.viewSingleConsumer);
 
-router.post('/consumer/:consumerID',authentication.hasPermission(viewConsumersPermission),consumer.postSingleConsumer);
+
+router.post('/consumer/:consumerID',authentication.hasPermission(viewConsumersPermission),fileUpload(),consumer.postSingleConsumer);
+
 
 //download links
 router.use('/download/consumer',authentication.hasPermission(downloadConsumerFilesPermission),express.static(configFile.fileUploadFolder+"/user"));
-// router.use('/consumer/download/test',function(req,res,next){
-// 	console.log("FUCK");
-// });
+
 
 
 module.exports = router;

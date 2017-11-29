@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var mySqlSessionStore = require('express-mysql-session')(session);
 
+
+
 var index = require('./routes/index');
 var users = require('./routes/user/user');
 var login = require('./routes/login');

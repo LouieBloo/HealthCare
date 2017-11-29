@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var validator = require('validator');
 var fs = require('fs');
+var mkdirp = require('mkdirp');
+
+const fileUpload = require('express-fileupload');
 
 var database = require('../../../database');
 var configFile = require('../../../config.js');
@@ -15,15 +18,18 @@ var viewSingleConsumer = function(req,res,next)
 
 		userHelperFunctions.fetchConsumer(req.params.consumerID),
 		fetchConsumerNotes(req.params.consumerID),
-		fetchConsumerFiles(req.params.consumerID)
+		fetchConsumerFiles(req.params.consumerID),
+		fetchConsumerPayer(req.params.consumerID)
 
 		]).then(function(results){
 
 
 			res.render('./user/consumer/consumer', {
 				title: "Consumer " + req.params.consumerID,
-				data:results[0][0],notes:results[1],
-				files:results[2]
+				data:results[0][0],
+				notes:results[1],
+				files:results[2],
+				payer:results[3][0]
 			});
 
 	})
@@ -36,9 +42,30 @@ var viewSingleConsumer = function(req,res,next)
 
 var postSingleConsumer = function(req,res,next)
 {
+	console.log(req.body);
+	console.log(req.files);
 
-	if(req.body)
+	if(req.files && req.files.fileUpload)
 	{
+		console.log("files!!");
+		mkdirp(configFile.fileUploadFolder+"/user/" + req.params.consumerID + "/files/",function(err){
+			console.log("mkdirp: " + err);
+			if(err)
+			{
+				res.send("Error uploading file: " + err);
+			}
+			else
+			{
+				req.files.fileUpload.mv(configFile.fileUploadFolder+"/user/" + req.params.consumerID + "/files/" + req.files.fileUpload.name ,function(err){
+					console.log("file uploaded: " + err);
+					res.send("Error: " + err);
+				});
+			}
+		});
+	}
+	else if(req.body)
+	{
+		console.log("body");
 		if(req.body.newNote)
 		{
 			insertNewNote(req.params.consumerID,req.user.id,req.body.newNote).then(function(){
@@ -49,8 +76,10 @@ var postSingleConsumer = function(req,res,next)
 
 		}
 	}
-	//res.send("okasdyf");
-	//viewSingleConsumer(req,res,next);
+	else
+	{
+		viewSingleConsumer(req,res,next);
+	}
 }
 
 var insertNewNote = function(consumerID,authorID,note)
@@ -122,6 +151,38 @@ var fetchConsumerFiles = function(consumerID){
 		
 	});
 };
+
+//
+var fetchConsumerPayer = function(consumerID)
+{
+	return new Promise((resolve,reject) =>{
+
+		database.db.query(
+			`SELECT
+				User.FName,
+				User.LName,
+				User.UserID, User.Phone,
+				User.Email,
+				User.Role,
+				User.SubRole
+			FROM User
+			INNER JOIN
+				ConsumerDetails ON User.UserID = ConsumerDetails.PayerID
+			WHERE
+				ConsumerDetails.ConsumerID=?`
+			,[consumerID],function(error,results,fields){
+			
+			if(error)
+			{
+				reject(error);
+			}
+			else
+			{
+				resolve(results);
+			}
+		});
+	});	
+}
 
 module.exports.viewSingleConsumer = viewSingleConsumer;
 module.exports.postSingleConsumer = postSingleConsumer;

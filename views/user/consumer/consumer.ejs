@@ -2,10 +2,9 @@
 
 
 var consumer = data != null || data !=[] ? data : null;
+var payer = payer != null || payer != [] ? payer : null;
 var notes = notes != null ? notes : null;
 var files = files != null ? files : null;
-
-//console.log(consumer);
 	
 %>
 
@@ -38,11 +37,11 @@ var files = files != null ? files : null;
 						</div>
 		    		</div><!--end options card-->
 
-		    		<div class="col-md-6  mt-md-0 mt-4">
+		    		<div class="col-md-6  mt-md-0 mt-4" >
 					    <div class="card">
 						 	<div class="card-header"><h4><i class="fa fa-credit-card" aria-hidden="true"></i>Payer Information</h4></div>
 						  	<div class="card-body">
-						  		<%- include('../singleUserSmallProfile',{person:consumer,cardTitle:'Submitter'}); %>
+						  		<%- include('../singleUserSmallProfile',{person:payer,cardTitle:'Submitter'}); %>
 						  	</div><!--card body-->
 						</div>
 		    		</div>
@@ -58,6 +57,15 @@ var files = files != null ? files : null;
 						  			<%});%>
 						  		</div>
 						  	<%}%>
+
+						  	<div class="row mt-4">
+						  		<div class="col-12">
+						  			<form action='' method="post" encType="multipart/form-data" name="uh">
+							  			<input type="file" class="form-control-file" name="fileUpload" >
+							  			<input class="btn btn-primary mt-4" type='submit' value="Upload">
+						  			</form>
+						  		</div>
+						  	</div>
 
 						  	</div><!--card body-->
 						</div>
@@ -88,10 +96,10 @@ var files = files != null ? files : null;
 
 				  		<div class="card-body">
 					  		<form name="NoteForm" action='' method="post">
-					  			<div class="form-group">
+					  			<div class="">
 					  				<label for="newNote">New Note</label>
 					  				<textarea class="form-control" name="newNote" id="newNote" row=3></textarea>
-					  				<input class="btn btn-primary mt-2" type='submit'>
+					  				<input class="btn btn-primary mt-4" type='submit'>
 					  			</div>
 
 					  		</form>
