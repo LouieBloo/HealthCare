@@ -6,7 +6,7 @@ var bcrypt = require('bcrypt');
 
 const fileUpload = require('express-fileupload');
 
-var createUser = require('./createUser');
+var createUser = require('../../lib/users/createUser');
 var userHomePage = require('./userHomePage');
 var consumer = require('./consumer/consumer');
 
@@ -26,13 +26,13 @@ router.get('/',authentication.hasPermission(homePagePermission),userHomePage.hom
 
 router.get('/create',authentication.hasPermission(createUserPermission),function(req,res,next){
 
-	createUser.createPage(req,res,next);
+	createUser.createUserHomePage(req,res,next);
 
 });
 
 router.post('/create',authentication.hasPermission(createUserPermission),function(req,res,next){
 
-	createUser.createUser(req,res,next);
+	createUser.createUserPost(req,res,next);
 
 });
 

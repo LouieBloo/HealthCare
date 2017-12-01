@@ -42,14 +42,9 @@ var viewSingleConsumer = function(req,res,next)
 
 var postSingleConsumer = function(req,res,next)
 {
-	console.log(req.body);
-	console.log(req.files);
-
 	if(req.files && req.files.fileUpload)
 	{
-		console.log("files!!");
 		mkdirp(configFile.fileUploadFolder+"/user/" + req.params.consumerID + "/files/",function(err){
-			console.log("mkdirp: " + err);
 			if(err)
 			{
 				res.send("Error uploading file: " + err);
@@ -57,7 +52,6 @@ var postSingleConsumer = function(req,res,next)
 			else
 			{
 				req.files.fileUpload.mv(configFile.fileUploadFolder+"/user/" + req.params.consumerID + "/files/" + req.files.fileUpload.name ,function(err){
-					console.log("file uploaded: " + err);
 					res.send("Error: " + err);
 				});
 			}

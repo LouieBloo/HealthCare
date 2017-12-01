@@ -1,0 +1,243 @@
+
+<%
+
+%>
+
+
+<%- include('../../header',{extraCSS:[],extraJS:[]}); %>
+
+
+<body>
+
+	<%- include('../../navbar',{page:''}); %>
+
+	<!-- override bootstraps default collapse class which is block. need to be flex for this form-->
+	<style>
+		.collapse.show{
+			display:flex;
+		}
+	</style>
+
+	<div class="container-fluid">
+		<form action="/users/create" method="post" class="form" role="form" id="formLogin">
+		    <div class="row">
+		        <div class="col-12 col-xl-7">
+		        	<!-- form card login -->
+                    <div class="card rounded-0">
+                        <div class="card-header">
+                            <h3 class="mb-0">General Information</h3>
+                        </div>
+                        <div class="card-body">
+                            
+                                <div class="row mb-md-3 ">
+									<div class="col-12">
+
+
+										<div class="row form-group mt-md-4">
+											<label for="UserType" class="col-md-2 col-form-label"><strong>User Type:</strong></label>
+											<div class="col-md-10 mb-2 mb-sm-0">
+											    <select class="custom-select border border-primary" name="UserType" id="UserType" onchange="">
+										    		<option value="2" selected>Consumer</option>
+										    		<option value="6">Employee</option>
+										    		<option value="10">Payer</option>
+										    	</select>
+											</div>
+										</div>
+
+										<div class="row form-group mt-md-4">
+											<label for="FName" class="col-md-2 col-form-label">Name</label>
+											<div class="col-md-5 mb-2 mb-sm-0">
+											    <input type="text" class="form-control <%= prefill.FName.error%>" name="FName" placeholder="First" value="<%= prefill.FName.value%>">
+											    <div class="invalid-feedback">Required</div>
+											</div>
+											<div class="col-md-5">
+												<input type="text" class="form-control <%= prefill.LName.error%>" name="LName"  placeholder="Last" value="<%= prefill.LName.value%>">
+												<div class="invalid-feedback">Required</div>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label for="Email" class="col-md-2 col-form-label">Email</label>
+											<div class="col-md-10">
+										    	<input type="email" class="form-control <%= prefill.Email.error%>" name="Email" aria-describedby="emailHelp" placeholder="Email" value="<%= prefill.Email.value%>">
+										    	<div class="invalid-feedback">Valid Email Required</div>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label for="Phone" class="col-md-2 col-form-label">Phone</label>
+											<div class="col-md-10">
+										    	<input type="tel" class="form-control <%= prefill.Phone.error%>" name="Phone"  placeholder="10 Digit Number" value="<%= prefill.Phone.value
+										    	%>">
+										    	<div class="invalid-feedback">10 Digit Number Required</div>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label for="AltPhone" class="col-md-2 col-form-label">Alt-Phone</label>
+											<div class="col-md-10">
+										    	<input type="tel" class="form-control <%= prefill.AltPhone.error%>" name="AltPhone"  placeholder="10 Digit Number" value="<%= prefill.AltPhone.value%>">
+										    	<div class="invalid-feedback">10 Digit Number Required</div>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label for="Street" class="col-md-2 col-form-label">Address</label>
+											<div class="col-md-10">
+												<div class="row mb-2">
+													<div class="col-md-6 mb-2 mb-sm-0">
+														<input type="text" class="form-control <%= prefill.Street.error%>" name="Street"  placeholder="Street" value="<%= prefill.Street.value%>">
+														<div class="invalid-feedback">Street Required</div>
+													</div>
+													<div class="col-md-6">
+														<input type="text" class="form-control <%= prefill.Street2.error%>" name="Street2"  placeholder="Apartment, suite, unit, etc" value="<%= prefill.Street2.value%>">
+													</div>
+												</div>
+										    	<div class="row mb-2">
+													<div class="col-md-6 mb-2 mb-sm-0">
+														<input type="text" class="form-control <%= prefill.City.error%>" name="City"  placeholder="City" value="<%= prefill.City.value%>">
+														<div class="invalid-feedback">City Required</div>
+													</div>
+													<div class="col-md-3 mb-2 mb-sm-0">
+														<input type="text" class="form-control <%= prefill.State.error%>" name="State"  placeholder="State" value="<%= prefill.State.value%>">
+														<div class="invalid-feedback">State Required</div>
+													</div>
+													<div class="col-md-3">
+														<input type="text" class="form-control <%= prefill.Zip.error%>" name="Zip"  placeholder="Zip" value="<%= prefill.Zip.value%>">
+														<div class="invalid-feedback">Zip Required</div>
+													</div>
+												</div>
+												<div class="row justify-content-end">
+													<div class="col-md-6 d-flex justify-content-end">
+														<button class="btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#altCollapse" aria-expanded="false" aria-controls="collapseExample">Add Alternate Address</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row form-group collapse" id="altCollapse">
+											<label for="AltStreet" class="col-md-2 col-form-label">Alt Address</label>
+											<div class="col-md-10">
+												<div class="row mb-2">
+													<div class="col-md-6 mb-2 mb-sm-0">
+														<input type="text" class="form-control <%= prefill.AltStreet.error%>" name="AltStreet"  placeholder="Street" value="<%= prefill.AltStreet.value%>">
+													</div>
+													<div class="col-md-6">
+														<input type="text" class="form-control <%= prefill.AltStreet2.error%>" name="AltStreet2"  placeholder="Apartment, suite, unit, etc" value="<%= prefill.AltStreet2.value%>">
+													</div>
+												</div>
+										    	<div class="row">
+													<div class="col-md-6 mb-2 mb-sm-0">
+														<input type="text" class="form-control <%= prefill.AltCity.error%>" name="AltCity"  placeholder="City" value="<%= prefill.AltCity.value%>">
+													</div>
+													<div class="col-md-3 mb-2 mb-sm-0">
+														<input type="text" class="form-control <%= prefill.AltState.error%>" name="AltState"  placeholder="State" value="<%= prefill.AltState.value%>">
+													</div>
+													<div class="col-md-3">
+														<input type="text" class="form-control <%= prefill.AltZip.error%>" name="AltZip"  placeholder="Zip" value="<%= prefill.AltZip.value%>">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label for="DOB" class="col-md-2 col-form-label">Birthday</label>
+											<div class="col-md-10">
+										    	<input type="date" class="form-control <%= prefill.DOB.error%>" name="DOB" value="<%= prefill.DOB.value%>">
+										    	<div class="invalid-feedback">Birthday Required</div>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label for="Language" class="col-md-2 col-form-label">Language</label>
+											<div class="col-md-10">
+										    	<input type="text" class="form-control" name="Language"  placeholder="Language" value="<%= prefill.Language.value%>">
+											</div>
+										</div>
+									</div>
+									
+								</div><!-- end  row-->
+                            
+                        </div>
+                        <!--/card-block-->
+                    </div>
+                    <!-- /form card login -->
+		        </div>
+		        <!--/col-->
+
+		        <div class="col-12 col-xl-5 mt-4 mt-xl-0">
+		        	<!-- form card login -->
+                    <div class="card rounded-0">
+                        <div class="card-header themeLightBlue">
+                            <h3 class="mb-0">Consumer Stuff</h3>
+                        </div>
+                        <div class="card-body">
+                            
+                                <div class="row mb-md-3 ">
+									<div class="col-12">
+										<div class="row form-group">
+											<label for="UCI" class="col-md-3 col-form-label">UCI</label>
+											<div class="col-md-9">
+										    	<input type="text" class="form-control <%= prefill.UCI.error%>" name="UCI"  placeholder="Universal  Identification" value="<%= prefill.UCI.value%>">
+										    	<div class="invalid-feedback">UCI Required</div>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label for="Diagnosis" class="col-md-3 col-form-label">Diagnosis</label>
+											<div class="col-md-9">
+										    	<textarea class="form-control" rows="3" name="Diagnosis" ><%= prefill.Diagnosis.value%></textarea>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label for="AdditionalInfo" class="col-md-3 col-form-label">Additional Info</label>
+											<div class="col-md-9">
+										    	<textarea class="form-control" rows="2" name="AdditionalInfo"><%= prefill.AdditionalInfo.value%></textarea>
+											</div>
+										</div>
+									</div>
+									
+								</div><!-- end  row-->
+
+								<div class="row justify-content-end">
+									<div class="col-md-5 d-flex form-group">
+										<button type="submit" class="btn btn-primary btn-lg btn-block">Create Consumer</button>
+									</div>
+								</div>
+                            
+                        </div>
+                        <!--/card-block-->
+                    </div>
+                    <!-- /form card login -->
+		        </div>
+		        <!--/col-->
+		    </div>
+		    <!--/End consumer card-->
+		</form>
+	</div>
+	<!--/container-->
+
+<script>
+
+	function userTypeChange(value)
+	{
+		switch(value)
+		{
+			case "EOR":
+				$('#WorkerRow').collapse('show');
+				$('#FamilyHeader').html('Family Information');
+			break;
+			case "Respit":
+				$('#WorkerRow').collapse('hide');
+				$('#FamilyHeader').html('Family Information');
+			break;
+			case "PA":
+				$('#WorkerRow').collapse('hide');
+				$('#FamilyHeader').html('Family Information*');
+			break;
+
+		}
+	}
+
+	//set default referral type coming in from prefill if there is one
+	$('#UserType').val('<%= prefill.UserType.value%>');
+	userTypeChange('<%= prefill.UserType.value%>');
+
+
+</script>
+    
+
+
+<%- include('../../footer'); %>

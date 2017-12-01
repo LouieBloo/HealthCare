@@ -237,6 +237,7 @@ var getPerson = function(finalResult,typeOfPersonToGet){
             StatusName,
 			Language,
 			Role,
+			SubRole,
 			Address.AddressID as AddressID,
 			Address.Street as Street,
 			Address.Street2 as Street2,
