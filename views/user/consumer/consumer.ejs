@@ -41,7 +41,11 @@ var files = files != null ? files : null;
 					    <div class="card">
 						 	<div class="card-header"><h4><i class="fa fa-credit-card" aria-hidden="true"></i>Payer Information</h4></div>
 						  	<div class="card-body">
-						  		<%- include('../singleUserSmallProfile',{person:payer,cardTitle:'Submitter'}); %>
+						  		<%if(payer){%>
+						  			<%- include('../singleUserSmallProfile',{person:payer,cardTitle:'Submitter'}); %>
+						  		<%}else{%>
+						  			<p>No payer</p>
+						  		<%}%>
 						  	</div><!--card body-->
 						</div>
 		    		</div>

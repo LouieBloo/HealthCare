@@ -36,7 +36,7 @@
 										<div class="row form-group mt-md-4">
 											<label for="UserType" class="col-md-2 col-form-label"><strong>User Type:</strong></label>
 											<div class="col-md-10 mb-2 mb-sm-0">
-											    <select class="custom-select border border-primary" name="UserType" id="UserType" onchange="">
+											    <select class="custom-select border border-primary" name="UserType" id="UserType" onchange="userTypeChange(this.value);">
 										    		<option value="2" selected>Consumer</option>
 										    		<option value="6">Employee</option>
 										    		<option value="10">Payer</option>
@@ -158,7 +158,7 @@
 		        </div>
 		        <!--/col-->
 
-		        <div class="col-12 col-xl-5 mt-4 mt-xl-0">
+		        <div class="col-12 col-xl-5 mt-4 mt-xl-0" id="ConsumerRow">
 		        	<!-- form card login -->
                     <div class="card rounded-0">
                         <div class="card-header themeLightBlue">
@@ -168,6 +168,18 @@
                             
                                 <div class="row mb-md-3 ">
 									<div class="col-12">
+										<div class="row form-group mt-md-4">
+											<label for="ConsumerType" class="col-12 col-md-3 col-form-label"><strong>Consumer Type</strong></label>
+
+											<div class="col-md-6">
+											    <select class="custom-select" name="ConsumerType" id="ConsumerType" >
+										    		<option value="1" selected>EOR</option>
+										    		<option value="2">PA</option>
+										    		<option value="3">Respit</option>
+										    	</select>
+
+											</div>
+										</div>
 										<div class="row form-group">
 											<label for="UCI" class="col-md-3 col-form-label">UCI</label>
 											<div class="col-md-9">
@@ -181,10 +193,60 @@
 										    	<textarea class="form-control" rows="3" name="Diagnosis" ><%= prefill.Diagnosis.value%></textarea>
 											</div>
 										</div>
+									</div>
+									
+								</div><!-- end  row-->
+
+								<div class="row justify-content-end">
+									<div class="col-md-5 d-flex form-group">
+										<button type="submit" class="btn btn-primary btn-lg btn-block">Create Consumer</button>
+									</div>
+								</div>
+                            
+                        </div>
+                        <!--/card-block-->
+                    </div>
+                    <!-- /form card login -->
+		        </div>
+		        <!--/col-->
+		        <!--/End consumer card-->
+		    
+		    
+
+			    <!--employee card-->
+			    <div class="col-12 col-xl-5 mt-4 mt-xl-0" id="EmployeeRow">
+			        	<!-- form card login -->
+                    <div class="card rounded-0">
+                        <div class="card-header themeLightPink">
+                            <h3 class="mb-0">Employee Stuff</h3>
+                        </div>
+                        <div class="card-body">
+                            
+                                <div class="row mb-md-3 ">
+									<div class="col-12">
+										<div class="row form-group mt-md-4">
+											<label for="EmployeeType" class="col-12 col-md-3 col-form-label"><strong>Employee Type</strong></label>
+
+											<div class="col-md-6">
+											    <select class="custom-select" name="EmployeeType" id="EmployeeType" >
+										    		<option value="11" selected>Caregiver</option>
+										    		<option value="1">General Employee</option>
+										    		<option value="12">Admin</option>
+										    	</select>
+
+											</div>
+										</div>
 										<div class="row form-group">
-											<label for="AdditionalInfo" class="col-md-3 col-form-label">Additional Info</label>
+											<label for="UCI" class="col-md-3 col-form-label">UCI</label>
 											<div class="col-md-9">
-										    	<textarea class="form-control" rows="2" name="AdditionalInfo"><%= prefill.AdditionalInfo.value%></textarea>
+										    	<input type="text" class="form-control <%= prefill.UCI.error%>" name="UCI"  placeholder="Universal  Identification" value="<%= prefill.UCI.value%>">
+										    	<div class="invalid-feedback">UCI Required</div>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label for="Diagnosis" class="col-md-3 col-form-label">Diagnosis</label>
+											<div class="col-md-9">
+										    	<textarea class="form-control" rows="3" name="Diagnosis" ><%= prefill.Diagnosis.value%></textarea>
 											</div>
 										</div>
 									</div>
@@ -204,7 +266,8 @@
 		        </div>
 		        <!--/col-->
 		    </div>
-		    <!--/End consumer card-->
+		    <!--/End employee card-->
+
 		</form>
 	</div>
 	<!--/container-->
@@ -215,17 +278,16 @@
 	{
 		switch(value)
 		{
-			case "EOR":
-				$('#WorkerRow').collapse('show');
-				$('#FamilyHeader').html('Family Information');
+			case "2":
+				$('#ConsumerRow').show();
+				$('#EmployeeRow').hide();
 			break;
-			case "Respit":
-				$('#WorkerRow').collapse('hide');
-				$('#FamilyHeader').html('Family Information');
+			case "6":
+				$('#ConsumerRow').hide();
+				$('#EmployeeRow').show();
 			break;
-			case "PA":
+			case "10":
 				$('#WorkerRow').collapse('hide');
-				$('#FamilyHeader').html('Family Information*');
 			break;
 
 		}

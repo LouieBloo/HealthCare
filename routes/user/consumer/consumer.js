@@ -52,7 +52,14 @@ var postSingleConsumer = function(req,res,next)
 			else
 			{
 				req.files.fileUpload.mv(configFile.fileUploadFolder+"/user/" + req.params.consumerID + "/files/" + req.files.fileUpload.name ,function(err){
-					res.send("Error: " + err);
+					if(err)
+					{
+						res.send("error: " + err);
+					}
+					else
+					{
+						viewSingleConsumer(req,res,next);
+					}
 				});
 			}
 		});
